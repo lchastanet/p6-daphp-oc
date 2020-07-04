@@ -1,0 +1,35 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Trick index{% endblock %}
+
+{% block body %}
+    <h1>Accueil</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Titre</th>
+                <th>Description</th>
+                <th>Groupe</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for trick in tricks %}
+            <tr>
+                <td>{{ trick.title }}</td>
+                <td>{{ trick.description }}</td>
+                <td>{{ trick.groupe.name }}</td>
+                <td>
+                    <a class="btn btn-success" href="{{ path('trick_show', {'id': trick.id}) }}">Afficher</a>
+                    <a class="btn btn-primary" href="{{ path('trick_edit', {'id': trick.id}) }}">Modifier</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="4">Aucun trick en base de donnée</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}
