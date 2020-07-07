@@ -3,8 +3,10 @@
 namespace App\Controller;
 
 use App\Entity\Trick;
+use App\Entity\Picture;
 use App\Form\TrickType;
 use App\Repository\TrickRepository;
+use App\Service\FileUploader;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -28,13 +30,23 @@ class TrickController extends AbstractController
     /**
      * @Route("/trick/new", name="trick_new", methods={"GET","POST"})
      */
-    public function new(Request $request): Response
+    public function new(Request $request, FileUploader $fileUploader): Response
     {
         $trick = new Trick();
         $form = $this->createForm(TrickType::class, $trick);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            $pictureFiles = $trick->getPictureFiles();
+
+            foreach ($pictureFiles as $pictureFile) {
+                $pictureFileName = $fileUploader->upload($pictureFile);
+
+                $picture = new Picture();
+                $picture->setURL($pictureFileName);
+                $trick->addPicture($picture);
+            }
+
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($trick);
             $entityManager->flush();
@@ -81,9 +93,15 @@ class TrickController extends AbstractController
     /**
      * @Route("/trick/{id}", name="trick_delete", methods={"DELETE"})
      */
-    public function delete(Request $request, Trick $trick): Response
+    public function delete(Request $request, Trick $trick, FileUploader $fileUploader): Response
     {
         if ($this->isCsrfTokenValid('delete' . $trick->getId(), $request->request->get('_token'))) {
+            $pictures = $trick->getPictures();
+
+            foreach ($pictures as $picture) {
+                $fileUploader->remove($picture->getURL());
+            }
+
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->remove($trick);
             $entityManager->flush();

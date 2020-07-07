@@ -16,8 +16,6 @@ class PictureType extends AbstractType
         $builder
             ->add('URL', FileType::class, [
                 'label' => 'Image à ajouter',
-                //'multiple' => true,
-                'data_class' => null,
                 'required' => false,
                 'constraints' => [
                     new File([

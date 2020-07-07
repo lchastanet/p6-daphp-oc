@@ -9,7 +9,9 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
-use Symfony\Component\Form\Extension\Core\Type\CollectionType;
+use Symfony\Component\Form\Extension\Core\Type\FileType;
+use Symfony\Component\Validator\Constraints\File;
+
 
 class TrickType extends AbstractType
 {
@@ -26,12 +28,8 @@ class TrickType extends AbstractType
                 'class' => Groupe::class,
                 'choice_label' => 'name'
             ])
-            ->add('pictures', CollectionType::class, [
-                'entry_type' => PictureType::class,
-                'prototype' => true,
-                'allow_add' => true,
-                'allow_delete' => true,
-                'entry_options' => ['label' => false],
+            ->add('pictureFiles', FileType::class, [
+                'multiple' => true,
             ]);
     }
 

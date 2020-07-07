@@ -6,6 +6,7 @@ use App\Repository\TrickRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass=TrickRepository::class)
@@ -42,7 +43,7 @@ class Trick
     private $groupe;
 
     /**
-     * @ORM\OneToMany(targetEntity=Picture::class, mappedBy="trick", orphanRemoval=true)
+     * @ORM\OneToMany(targetEntity=Picture::class, mappedBy="trick", orphanRemoval=true, cascade={"persist"})
      */
     private $pictures;
 
@@ -55,6 +56,13 @@ class Trick
      * @ORM\OneToMany(targetEntity=Post::class, mappedBy="trick", orphanRemoval=true)
      */
     private $posts;
+
+    /**
+     * @Assert\All({
+     *  @Assert\Image(mimeTypes="image/jpeg")
+     * })
+     */
+    private $pictureFiles;
 
     public function __construct()
     {
@@ -206,6 +214,17 @@ class Trick
             }
         }
 
+        return $this;
+    }
+
+    public function getPictureFiles()
+    {
+        return $this->pictureFiles;
+    }
+
+    public function setPictureFiles(array $pictureFiles): self
+    {
+        $this->pictureFiles = $pictureFiles;
         return $this;
     }
 }

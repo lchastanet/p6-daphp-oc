@@ -19,6 +19,12 @@
                 <th>Groupe</th>
                 <td>{{ trick.groupe.name }}</td>
             </tr>
+            <tr>
+                <th>Images</th>
+                {% for picture in trick.pictures %}
+                    <td><img src="{{ asset('uploads/pictures/' ~ picture.URL) }}" width="400" height="341"></td>
+                {% endfor %}
+            </tr>
         </tbody>
     </table>
 
