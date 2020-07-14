@@ -6,9 +6,9 @@ use App\Repository\PostRepository;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * @ORM\Entity(repositoryClass=PostRepository::class)
+ * @ORM\Entity(repositoryClass=CommentRepository::class)
  */
-class Post
+class Comment
 {
     /**
      * @ORM\Id()
@@ -28,13 +28,13 @@ class Post
     private $createdAt;
 
     /**
-     * @ORM\ManyToOne(targetEntity=User::class, inversedBy="posts")
+     * @ORM\ManyToOne(targetEntity=User::class, inversedBy="comments")
      * @ORM\JoinColumn(nullable=false)
      */
     private $user;
 
     /**
-     * @ORM\ManyToOne(targetEntity=Trick::class, inversedBy="posts")
+     * @ORM\ManyToOne(targetEntity=Trick::class, inversedBy="comments")
      * @ORM\JoinColumn(nullable=false)
      */
     private $trick;
