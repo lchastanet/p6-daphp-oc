@@ -1,4 +1,11 @@
+
 {{ form_start(form) }}
-    {{ form_widget(form) }}
+    {{ form_row(form.title) }}
+    {{ form_row(form.description) }}
+    {{ form_row(form.user) }}
+    {{ form_row(form.groupe) }}
+    {{ form_row(form.pictureFiles) }}
+    <label for="">Videos</label>
+    <div class="videos" data-prototype="{{ form_widget(form.videos.vars.prototype)|e('html_attr') }}"></div>
     <button class="btn btn-success">{{ button_label|default('Enregistrer') }}</button>
-{{ form_end(form) }}
+{{ form_end(form, {'render_rest': false}) }}

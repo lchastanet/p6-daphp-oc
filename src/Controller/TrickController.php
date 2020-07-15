@@ -73,15 +73,25 @@ class TrickController extends AbstractController
     /**
      * @Route("/trick/{id}/edit", name="trick_edit", methods={"GET","POST"})
      */
-    public function edit(Request $request, Trick $trick): Response
+    public function edit(Request $request, Trick $trick, FileUploader $fileUploader): Response
     {
         $form = $this->createForm(TrickType::class, $trick);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            $pictureFiles = $trick->getPictureFiles();
+
+            foreach ($pictureFiles as $pictureFile) {
+                $pictureFileName = $fileUploader->upload($pictureFile);
+
+                $picture = new Picture();
+                $picture->setURL($pictureFileName);
+                $trick->addPicture($picture);
+            }
+
             $this->getDoctrine()->getManager()->flush();
 
-            return $this->redirectToRoute('trick_index');
+            return $this->redirectToRoute('trick_show', ['id' => $trick->getId()]);
         }
 
         return $this->render('trick/edit.html.twig', [

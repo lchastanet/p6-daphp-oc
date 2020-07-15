@@ -1,6 +1,6 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Trick{% endblock %}
+{% block title %}Trick - {{ trick.title }}{% endblock %}
 
 {% block body %}
     <h1>Trick</h1>
@@ -23,6 +23,12 @@
                 <th>Images</th>
                 {% for picture in trick.pictures %}
                     <td><img src="{{ asset('uploads/pictures/' ~ picture.URL) }}" width="300" height="200"></td>
+                {% endfor %}
+            </tr>
+            <tr>
+                <th>Videos</th>
+                {% for video in trick.videos %}
+                    <td><iframe width="300" height="200" src="{{ video.URL }}" frameborder="0"></iframe></td>
                 {% endfor %}
             </tr>
         </tbody>

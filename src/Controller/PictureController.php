@@ -10,6 +10,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use App\Service\FileUploader;
+use PhpParser\Node\Scalar\MagicConst\File;
 
 /**
  * @Route("/picture")
@@ -63,15 +64,25 @@ class PictureController extends AbstractController
     /**
      * @Route("/{id}/edit", name="picture_edit", methods={"GET","POST"})
      */
-    public function edit(Request $request, Picture $picture): Response
+    public function edit(Request $request, Picture $picture, FileUploader $fileUploader): Response
     {
         $form = $this->createForm(PictureType::class, $picture);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            $trickId = $picture->getTrick()->getId();
+            $pictureFile = $form->get('URL')->getData();
+
+            if ($pictureFile) {
+                $oldURL = $picture->getURL();
+                $pictureFileName = $fileUploader->upload($pictureFile);
+                $picture->setURL($pictureFileName);
+                $fileUploader->remove($oldURL);
+            }
+
             $this->getDoctrine()->getManager()->flush();
 
-            return $this->redirectToRoute('picture_index');
+            return $this->redirectToRoute('trick_edit', ['id' => $trickId]);
         }
 
         return $this->render('picture/edit.html.twig', [
@@ -86,6 +97,8 @@ class PictureController extends AbstractController
     public function delete(Request $request, Picture $picture, FileUploader $fileUploader): Response
     {
         if ($this->isCsrfTokenValid('delete' . $picture->getId(), $request->request->get('_token'))) {
+            $trickId = $picture->getTrick()->getId();
+
             $fileName = $picture->getURL();
 
             $fileUploader->remove($fileName);
@@ -95,6 +108,6 @@ class PictureController extends AbstractController
             $entityManager->flush();
         }
 
-        return $this->redirectToRoute('picture_new');
+        return $this->redirectToRoute('trick_edit', ['id' => $trickId]);
     }
 }
