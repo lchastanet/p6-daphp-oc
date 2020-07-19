@@ -1,0 +1,27 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Modifier le Trick{% endblock %}
+
+{% block body %}
+    <h1>Modifier le Trick</h1>
+
+    {% for picture in trick.pictures %}
+        <img src="{{ asset('uploads/pictures/' ~ picture.URL) }}" width="300" height="200">
+        <a href="{{ path('picture_edit', {'id': picture.id}) }}">
+            {{ include('_utils/_pencil.html.twig') }}
+        </a>
+        {{ include('picture/_delete_form.html.twig') }}
+    {% endfor %}
+
+    {% for video in trick.videos %}
+        <iframe width="300" height="200" src="{{ video.URL }}" frameborder="0"></iframe>
+        <a href="{{ path('video_edit', {'id': video.id}) }}">
+            {{ include('_utils/_pencil.html.twig') }}
+        </a>
+        {{ include('video/_delete_form.html.twig') }}
+    {% endfor %}
+
+    {{ include('trick/_form.html.twig', {'button_label': 'Modifier'}) }}
+
+    {{ include('trick/_delete_form.html.twig') }}
+{% endblock %}

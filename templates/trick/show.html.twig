@@ -1,0 +1,40 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Trick - {{ trick.title }}{% endblock %}
+
+{% block body %}
+    <h1>Trick</h1>
+
+    <table class="table">
+        <tbody>
+            <tr>
+                <th>Title</th>
+                <td>{{ trick.title }}</td>
+            </tr>
+            <tr>
+                <th>Description</th>
+                <td>{{ trick.description }}</td>
+            </tr>
+            <tr>
+                <th>Groupe</th>
+                <td>{{ trick.groupe.name }}</td>
+            </tr>
+            <tr>
+                <th>Images</th>
+                {% for picture in trick.pictures %}
+                    <td><img src="{{ asset('uploads/pictures/' ~ picture.URL) }}" width="300" height="200"></td>
+                {% endfor %}
+            </tr>
+            <tr>
+                <th>Videos</th>
+                {% for video in trick.videos %}
+                    <td><iframe width="300" height="200" src="{{ video.URL }}" frameborder="0"></iframe></td>
+                {% endfor %}
+            </tr>
+        </tbody>
+    </table>
+
+    <a class="btn btn-primary" href="{{ path('trick_edit', {'id': trick.id}) }}">Modifier</a>
+
+    {{ include('trick/_delete_form.html.twig') }}
+{% endblock %}

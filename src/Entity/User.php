@@ -40,7 +40,7 @@ class User
     private $avatar;
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * @ORM\Column(type="string", length=255, nullable=true)
      */
     private $reinitToken;
 
@@ -50,14 +50,14 @@ class User
     private $tricks;
 
     /**
-     * @ORM\OneToMany(targetEntity=Post::class, mappedBy="user", orphanRemoval=true)
+     * @ORM\OneToMany(targetEntity=Comment::class, mappedBy="user", orphanRemoval=true)
      */
-    private $posts;
+    private $comments;
 
     public function __construct()
     {
         $this->tricks = new ArrayCollection();
-        $this->posts = new ArrayCollection();
+        $this->comments = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -157,30 +157,30 @@ class User
     }
 
     /**
-     * @return Collection|Post[]
+     * @return Collection|Comment[]
      */
-    public function getPosts(): Collection
+    public function getComments(): Collection
     {
-        return $this->posts;
+        return $this->comments;
     }
 
-    public function addPost(Post $post): self
+    public function addComment(Comment $comment): self
     {
-        if (!$this->posts->contains($post)) {
-            $this->posts[] = $post;
-            $post->setUser($this);
+        if (!$this->comments->contains($comment)) {
+            $this->comments[] = $comment;
+            $comment->setUser($this);
         }
 
         return $this;
     }
 
-    public function removePost(Post $post): self
+    public function removeComment(Comment $comment): self
     {
-        if ($this->posts->contains($post)) {
-            $this->posts->removeElement($post);
+        if ($this->comments->contains($comment)) {
+            $this->comments->removeElement($comment);
             // set the owning side to null (unless already changed)
-            if ($post->getUser() === $this) {
-                $post->setUser(null);
+            if ($comment->getUser() === $this) {
+                $comment->setUser(null);
             }
         }
 

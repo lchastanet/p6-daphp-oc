@@ -6,6 +6,7 @@ use App\Repository\TrickRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass=TrickRepository::class)
@@ -42,19 +43,26 @@ class Trick
     private $groupe;
 
     /**
-     * @ORM\OneToMany(targetEntity=Picture::class, mappedBy="trick", orphanRemoval=true)
+     * @ORM\OneToMany(targetEntity=Picture::class, mappedBy="trick", orphanRemoval=true, cascade={"persist"})
      */
     private $pictures;
 
     /**
-     * @ORM\OneToMany(targetEntity=Video::class, mappedBy="trick", orphanRemoval=true)
+     * @ORM\OneToMany(targetEntity=Video::class, mappedBy="trick", orphanRemoval=true, cascade={"persist"})
      */
     private $videos;
 
     /**
-     * @ORM\OneToMany(targetEntity=Post::class, mappedBy="trick", orphanRemoval=true)
+     * @ORM\OneToMany(targetEntity=Comment::class, mappedBy="trick", orphanRemoval=true)
      */
-    private $posts;
+    private $comments;
+
+    /**
+     * @Assert\All({
+     *  @Assert\Image(mimeTypes="image/jpeg")
+     * })
+     */
+    private $pictureFiles;
 
     public function __construct()
     {
@@ -179,33 +187,44 @@ class Trick
     }
 
     /**
-     * @return Collection|Post[]
+     * @return Collection|Comment[]
      */
-    public function getPosts(): Collection
+    public function getComments(): Collection
     {
-        return $this->posts;
+        return $this->comments;
     }
 
-    public function addPost(Post $post): self
+    public function addComment(Comment $comment): self
     {
-        if (!$this->posts->contains($post)) {
-            $this->posts[] = $post;
-            $post->setTrick($this);
+        if (!$this->comments->contains($comment)) {
+            $this->comments[] = $comment;
+            $comment->setTrick($this);
         }
 
         return $this;
     }
 
-    public function removePost(Post $post): self
+    public function removeComment(Comment $comment): self
     {
-        if ($this->posts->contains($post)) {
-            $this->posts->removeElement($post);
+        if ($this->comments->contains($comment)) {
+            $this->comments->removeElement($comment);
             // set the owning side to null (unless already changed)
-            if ($post->getTrick() === $this) {
-                $post->setTrick(null);
+            if ($comment->getTrick() === $this) {
+                $comment->setTrick(null);
             }
         }
 
+        return $this;
+    }
+
+    public function getPictureFiles()
+    {
+        return $this->pictureFiles;
+    }
+
+    public function setPictureFiles(array $pictureFiles): self
+    {
+        $this->pictureFiles = $pictureFiles;
         return $this;
     }
 }
