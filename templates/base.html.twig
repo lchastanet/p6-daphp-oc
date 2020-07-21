@@ -4,7 +4,7 @@
         <meta charset="UTF-8">
         <title>{% block title %}Welcome!{% endblock %}</title>
         {% block stylesheets %}
-            <link rel="stylesheet" href="https://bootswatch.com/4/cosmo/bootstrap.min.css">
+            <link rel="stylesheet" href="https://bootswatch.com/4/lumen/bootstrap.min.css">
         {% endblock %}
     </head>
     <body>
@@ -21,6 +21,9 @@
                     </li>
                     <li class="nav-item active">
                         <a class="nav-link" href="{{ path('trick_new') }}">Ajouter un trick</a>
+                    </li>
+                    <li class="nav-item active">
+                        <a class="nav-link" href="{{ path('user_registration') }}">Inscription</a>
                     </li>
                 </ul>
             </div>

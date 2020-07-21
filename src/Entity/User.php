@@ -6,11 +6,18 @@ use App\Repository\UserRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Security\Core\User\UserInterface;
+use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 /**
  * @ORM\Entity(repositoryClass=UserRepository::class)
+ * @UniqueEntity(
+ *  fields={"userName"},
+ *  message="Ce nom d'utilisateur est déjà utilisé."
+ * )
  */
-class User
+class User implements UserInterface, \Serializable
 {
     /**
      * @ORM\Id()
@@ -26,11 +33,18 @@ class User
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Assert\Length(min="8", minMessage="Votre mot de passe doit faire minimum 8 caractères.")
      */
     private $password;
 
     /**
+     * @Assert\EqualTo(propertyPath="password", message="Les mots de passe ne correspondent pas.")
+     */
+    private $confirmPassword;
+
+    /**
      * @ORM\Column(type="string", length=255)
+     * @Assert\Email(message="Veuillez utiliser un format d'adresse email correcte.")
      */
     private $email;
 
@@ -183,6 +197,59 @@ class User
                 $comment->setUser(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getRoles()
+    {
+        return ['ROLE_ADMIN'];
+    }
+
+    public function getSalt()
+    {
+        return null;
+    }
+
+    public function eraseCredentials()
+    {
+        return null;
+    }
+
+    public function serialize()
+    {
+        return serialize([
+            $this->id,
+            $this->userName,
+            $this->password
+        ]);
+    }
+
+    public function unserialize($serialized)
+    {
+        list(
+            $this->id,
+            $this->userName,
+            $this->password
+        ) = unserialize($serialized, ['allowed_classes' => false]);
+    }
+
+    /**
+     * Get the value of confirmPassword
+     */
+    public function getConfirmPassword()
+    {
+        return $this->confirmPassword;
+    }
+
+    /**
+     * Set the value of confirmPassword
+     *
+     * @return  self
+     */
+    public function setConfirmPassword($confirmPassword)
+    {
+        $this->confirmPassword = $confirmPassword;
 
         return $this;
     }
