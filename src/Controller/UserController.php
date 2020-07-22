@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\User;
 use App\Form\RegistrationType;
 use App\Form\UserType;
+use App\Form\ForgotPasswordType;
 use App\Repository\UserRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -59,13 +60,33 @@ class UserController extends AbstractController
     }
 
     /**
-     * @Route("/user/{id}", name="user_show", methods={"GET"})
+     * @Route("/mot-de-passe-oublie", name="user_forgot_password", methods={"GET","POST"})
      */
-    public function show(User $user): Response
+    public function forgotPassword(Request $request, EntityManagerInterface $manager)
     {
-        return $this->render('user/show.html.twig', [
-            'user' => $user,
+        $user = new User();
+
+        $form = $this->createForm(ForgotPasswordType::class, $user);
+
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $manager->persist($user);
+            $manager->flush();
+
+            return $this->redirectToRoute('user_login');
+        }
+
+        return $this->render('user/forgot_password.html.twig', [
+            'form' => $form->createView()
         ]);
+    }
+
+    /**
+     * @Route("/deconnexion", name="user_logout")
+     */
+    public function logout()
+    {
     }
 
     /**

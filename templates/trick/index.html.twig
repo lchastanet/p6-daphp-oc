@@ -22,7 +22,9 @@
                 <td>{{ trick.groupe.name }}</td>
                 <td>
                     <a class="btn btn-success" href="{{ path('trick_show', {'id': trick.id}) }}">Afficher</a>
-                    <a class="btn btn-primary" href="{{ path('trick_edit', {'id': trick.id}) }}">Modifier</a>
+                    {% if app.user %}
+                        <a class="btn btn-primary" href="{{ path('trick_edit', {'id': trick.id}) }}">Modifier</a>
+                    {% endif %}
                 </td>
             </tr>
         {% else %}

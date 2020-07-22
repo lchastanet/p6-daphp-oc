@@ -31,10 +31,15 @@
                     <td><iframe width="300" height="200" src="{{ video.URL }}" frameborder="0"></iframe></td>
                 {% endfor %}
             </tr>
+            <tr>
+                <th>Auteur</th>
+                <td>{{ trick.user.userName }}</td>
+            </tr>
         </tbody>
     </table>
+    {% if app.user %}
+        <a class="btn btn-primary" href="{{ path('trick_edit', {'id': trick.id}) }}">Modifier</a>
 
-    <a class="btn btn-primary" href="{{ path('trick_edit', {'id': trick.id}) }}">Modifier</a>
-
-    {{ include('trick/_delete_form.html.twig') }}
+        {{ include('trick/_delete_form.html.twig') }}
+    {% endif %}
 {% endblock %}

@@ -19,12 +19,18 @@
                 <li class="nav-item active">
                         <a class="nav-link" href="{{ path('trick_index') }}">Accueil</a>
                     </li>
-                    <li class="nav-item active">
-                        <a class="nav-link" href="{{ path('trick_new') }}">Ajouter un trick</a>
-                    </li>
-                    <li class="nav-item active">
-                        <a class="nav-link" href="{{ path('user_registration') }}">Inscription</a>
-                    </li>
+                    {% if not app.user %}
+                        <li class="nav-item active">
+                            <a class="nav-link" href="{{ path('user_login') }}">Se connecter</a>
+                        </li>
+                    {% else %}
+                        <li class="nav-item active">
+                            <a class="nav-link" href="{{ path('trick_new') }}">Ajouter un trick</a>
+                        </li>
+                        <li class="nav-item active">
+                            <a class="nav-link" href="{{ path('user_logout') }}">Déconnexion</a>
+                        </li>
+                    {% endif %}
                 </ul>
             </div>
         </nav>

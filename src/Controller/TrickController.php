@@ -11,6 +11,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Security\Core\Security;
 
 /**
  * @Route("/")
@@ -30,13 +31,15 @@ class TrickController extends AbstractController
     /**
      * @Route("/trick/new", name="trick_new", methods={"GET","POST"})
      */
-    public function new(Request $request, FileUploader $fileUploader): Response
+    public function new(Request $request, FileUploader $fileUploader, Security $security): Response
     {
         $trick = new Trick();
         $form = $this->createForm(TrickType::class, $trick);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            $trick->setUser($security->getUser());
+
             $pictureFiles = $trick->getPictureFiles();
 
             foreach ($pictureFiles as $pictureFile) {
@@ -73,12 +76,14 @@ class TrickController extends AbstractController
     /**
      * @Route("/trick/{id}/edit", name="trick_edit", methods={"GET","POST"})
      */
-    public function edit(Request $request, Trick $trick, FileUploader $fileUploader): Response
+    public function edit(Request $request, Trick $trick, FileUploader $fileUploader, Security $security): Response
     {
         $form = $this->createForm(TrickType::class, $trick);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            $trick->setUser($security->getUser());
+
             $pictureFiles = $trick->getPictureFiles();
 
             foreach ($pictureFiles as $pictureFile) {
