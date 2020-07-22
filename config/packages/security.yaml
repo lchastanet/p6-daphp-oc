@@ -11,9 +11,10 @@ security:
             security: false
         main:
             anonymous: lazy
+            provider: from_database
             form_login:
-                check_path: login
-                username_parameter: userName
+                login_path: user_login
+                check_path: user_login
             logout:
                 path: user_logout
                 target: trick_index

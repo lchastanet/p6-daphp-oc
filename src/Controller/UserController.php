@@ -19,16 +19,13 @@ class UserController extends AbstractController
     /**
      * @Route("/connexion", name="user_login", methods={"GET", "POST"})
      */
-    public function login(Request $request, AuthenticationUtils $authenticationUtils): Response
+    public function login(AuthenticationUtils $authenticationUtils): Response
     {
         $error = $authenticationUtils->getLastAuthenticationError();
         $user = new User();
-        $form = $this->createForm(UserType::class, $user);
-        $form->handleRequest($request);
 
         return $this->render('user/login.html.twig', [
             'user' => $user,
-            'form' => $form->createView(),
             'error' => $error
         ]);
     }
@@ -49,7 +46,7 @@ class UserController extends AbstractController
 
             $user->setPassword($hash);
 
-            $user->setAvatar('default-avatar.jpg');
+            $user->setAvatar('default/default-avatar.jpg');
             $manager->persist($user);
             $manager->flush();
 

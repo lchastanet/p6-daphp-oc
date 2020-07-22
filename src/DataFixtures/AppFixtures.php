@@ -3,7 +3,7 @@
 namespace App\DataFixtures;
 
 use Doctrine\Bundle\FixturesBundle\Fixture;
-use Doctrine\Common\Persistence\ObjectManager;
+use Doctrine\Persistence\ObjectManager;
 use App\Entity\Groupe;
 use App\Entity\User;
 use App\Entity\Trick;
@@ -13,11 +13,12 @@ class AppFixtures extends Fixture
     public function load(ObjectManager $manager)
     {
         $user = new User();
+        //!TODO use Encoder ???
 
         $user->setUserName('john')
             ->setEmail('hello@john.doe')
             ->setPassword('azerty')
-            ->setAvatar('pathToAvatar');
+            ->setAvatar('default/default-avatar.jpg');
 
         $manager->persist($user);
 
@@ -26,7 +27,7 @@ class AppFixtures extends Fixture
         $user->setUserName('arthur')
             ->setEmail('hello@arthur.doe')
             ->setPassword('azerty')
-            ->setAvatar('pathToAvatar');
+            ->setAvatar('default/default-avatar.jpg');
 
         $manager->persist($user);
 
