@@ -6,14 +6,17 @@ use App\Entity\User;
 use App\Form\RegistrationType;
 use App\Form\UserType;
 use App\Form\ForgotPasswordType;
+use App\Form\ResetPasswordType;
 use App\Repository\UserRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Mailer\MailerInterface;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
+use Symfony\Component\Mime\Email;
 
 class UserController extends AbstractController
 {
@@ -62,7 +65,7 @@ class UserController extends AbstractController
     /**
      * @Route("/mot-de-passe-oublie", name="user_forgot_password", methods={"GET","POST"})
      */
-    public function forgotPassword(Request $request, EntityManagerInterface $manager)
+    public function forgotPassword(Request $request, EntityManagerInterface $manager, MailerInterface $mailer)
     {
         $user = new User();
 
@@ -71,15 +74,68 @@ class UserController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $manager->persist($user);
-            $manager->flush();
+            $user = $manager->getRepository(User::class)->findOneBy(['email' => $user->getEmail()]);
 
-            return $this->redirectToRoute('user_login');
+            if ($user) {
+                $user->setReinitToken(bin2hex(random_bytes(32)));
+
+                $manager->persist($user);
+                $manager->flush();
+
+                $email = (new Email())
+                    ->from('mailer@oc-projet5.loris.space')
+                    ->to($user->getEmail())
+                    ->subject('Réinitialisez votre mot de passe!')
+                    ->text('http://localhost:8000/reinitialiser-mot-de-passe?user=' . $user->getUserName() . '&token=' . $user->getReinitToken());
+
+                $mailer->send($email);
+
+                return $this->redirectToRoute('user_login');
+            }
+
+            return $this->redirectToRoute('user_registration');
         }
 
         return $this->render('user/forgot_password.html.twig', [
             'form' => $form->createView()
         ]);
+    }
+
+    /**
+     * @Route("/reinitialiser-mot-de-passe", name="user_reset_password", methods={"GET","POST"})
+     */
+    public function resetPassword(Request $request, EntityManagerInterface $manager, UserPasswordEncoderInterface $encoder)
+    {
+        $userName = $request->query->get('user');
+        $token = $request->query->get('token');
+
+        $user = $manager->getRepository(User::class)->findOneBy(['userName' => $userName]);
+
+        if ($token == $user->getReinitToken()) {
+            $form = $this->createForm(ResetPasswordType::class, $user);
+
+            $form->handleRequest($request);
+
+            if ($form->isSubmitted() && $form->isValid()) {
+                $user->setPassword($encoder->encodePassword($user, $user->getPassword()));
+                $user->setReinitToken(null);
+
+                $manager->persist($user);
+                $manager->flush();
+
+                $this->addFlash('success', 'Un email vous à été envoyer, cliquez sur le lien pour réinitialiser votre mot de passe!');
+
+                return $this->redirectToRoute('user_login');
+            }
+
+            return $this->render('user/reset_password.html.twig', [
+                'form' => $form->createView()
+            ]);
+        }
+
+        $this->addFlash('danger', 'Le lien est invalide ou à expiré!');
+
+        return $this->redirectToRoute('trick_index');
     }
 
     /**

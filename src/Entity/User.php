@@ -132,7 +132,7 @@ class User implements UserInterface, \Serializable
         return $this->reinitToken;
     }
 
-    public function setReinitToken(string $reinitToken): self
+    public function setReinitToken(?string $reinitToken): self
     {
         $this->reinitToken = $reinitToken;
 
@@ -201,7 +201,7 @@ class User implements UserInterface, \Serializable
         return $this;
     }
 
-    public function getRoles()
+    public function getRoles(): array
     {
         return ['ROLE_ADMIN'];
     }
@@ -236,7 +236,7 @@ class User implements UserInterface, \Serializable
     /**
      * Get the value of confirmPassword
      */
-    public function getConfirmPassword()
+    public function getConfirmPassword(): ?string
     {
         return $this->confirmPassword;
     }
@@ -246,7 +246,7 @@ class User implements UserInterface, \Serializable
      *
      * @return  self
      */
-    public function setConfirmPassword($confirmPassword)
+    public function setConfirmPassword($confirmPassword): self
     {
         $this->confirmPassword = $confirmPassword;
 
