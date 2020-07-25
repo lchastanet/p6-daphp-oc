@@ -3,21 +3,29 @@
 namespace App\DataFixtures;
 
 use Doctrine\Bundle\FixturesBundle\Fixture;
-use Doctrine\Common\Persistence\ObjectManager;
+use Doctrine\Persistence\ObjectManager;
 use App\Entity\Groupe;
 use App\Entity\User;
 use App\Entity\Trick;
+use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 
 class AppFixtures extends Fixture
 {
+
+    private $encoder;
+
+    public function __construct(UserPasswordEncoderInterface $encoder)
+    {
+        $this->encoder = $encoder;
+    }
+
     public function load(ObjectManager $manager)
     {
         $user = new User();
-
         $user->setUserName('john')
             ->setEmail('hello@john.doe')
-            ->setPassword('azerty')
-            ->setAvatar('pathToAvatar');
+            ->setPassword($this->encoder->encodePassword($user, 'azerty'))
+            ->setAvatar('default/default-avatar.jpg');
 
         $manager->persist($user);
 
@@ -25,8 +33,8 @@ class AppFixtures extends Fixture
 
         $user->setUserName('arthur')
             ->setEmail('hello@arthur.doe')
-            ->setPassword('azerty')
-            ->setAvatar('pathToAvatar');
+            ->setPassword($this->encoder->encodePassword($user, 'azerty'))
+            ->setAvatar('default/default-avatar.jpg');
 
         $manager->persist($user);
 

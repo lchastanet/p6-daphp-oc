@@ -23,7 +23,7 @@ class FileUploader
         try {
             $file->move($this->getTargetDirectory(), $fileName);
         } catch (FileException $e) {
-            // !@TOTO handle excepetion
+            // !TODO handle excepetion
         }
 
         return $fileName;
@@ -32,7 +32,10 @@ class FileUploader
     public function remove($fileName)
     {
         $fileName = $this->getTargetDirectory() . '/' . $fileName;
-        unlink($fileName);
+
+        if (file_exists($fileName)) {
+            unlink($fileName);
+        }
     }
 
     public function getTargetDirectory()

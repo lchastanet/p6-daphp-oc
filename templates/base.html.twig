@@ -4,7 +4,7 @@
         <meta charset="UTF-8">
         <title>{% block title %}Welcome!{% endblock %}</title>
         {% block stylesheets %}
-            <link rel="stylesheet" href="https://bootswatch.com/4/cosmo/bootstrap.min.css">
+            <link rel="stylesheet" href="https://bootswatch.com/4/lumen/bootstrap.min.css">
         {% endblock %}
     </head>
     <body>
@@ -19,13 +19,34 @@
                 <li class="nav-item active">
                         <a class="nav-link" href="{{ path('trick_index') }}">Accueil</a>
                     </li>
-                    <li class="nav-item active">
-                        <a class="nav-link" href="{{ path('trick_new') }}">Ajouter un trick</a>
-                    </li>
+                    {% if not app.user %}
+                        <li class="nav-item active">
+                            <a class="nav-link" href="{{ path('user_login') }}">Se connecter</a>
+                        </li>
+                    {% else %}
+                        <li class="nav-item active">
+                            <a class="nav-link" href="{{ path('trick_new') }}">Ajouter un trick</a>
+                        </li>
+                        <li class="nav-item active">
+                            <a class="nav-link" href="{{ path('user_edit_avatar') }}">Modifier avatar</a>
+                        </li>
+                        <li class="nav-item active">
+                            <a class="nav-link" href="{{ path('user_logout') }}">Déconnexion</a>
+                        </li>
+                    {% endif %}
                 </ul>
             </div>
         </nav>
+        
         <div class="container">
+            {% for label, messages in app.flashes %}
+                {% for message in messages %}
+                    <div class="alert alert-dismissible alert-{{ label }}">
+                        <button type="button" class="close" data-dismiss="alert">&times;</button>
+                        <p class="mb-0">{{ message }}</p>
+                    </div>
+                {% endfor %}
+            {% endfor %}
             {% block body %}{% endblock %}
         </div>
         

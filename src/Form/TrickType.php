@@ -20,10 +20,6 @@ class TrickType extends AbstractType
         $builder
             ->add('title')
             ->add('description')
-            ->add('user', EntityType::class, [
-                'class' => User::class,
-                'choice_label' => 'username'
-            ])
             ->add('groupe', EntityType::class, [
                 'class' => Groupe::class,
                 'choice_label' => 'name'
