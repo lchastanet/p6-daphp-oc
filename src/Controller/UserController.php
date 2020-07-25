@@ -157,16 +157,15 @@ class UserController extends AbstractController
 
             $pictureFile = $form->get('URL')->getData();
 
-            $regx = '#^pictures\/#';
+            $fileUploader->setTargetDirectory($fileUploader->getTargetDirectory() . '/avatars');
 
-            if (preg_match($regx, $user->getAvatar())) {
-                $oldAvatar = preg_replace($regx, '', $user->getAvatar());
-                $fileUploader->remove($oldAvatar);
+            if (!preg_match('#default\/default#', $user->getAvatar())) {
+                $fileUploader->remove($user->getAvatar());
             }
 
             if ($pictureFile) {
                 $pictureFileName = $fileUploader->upload($pictureFile);
-                $user->setAvatar('pictures/' . $pictureFileName);
+                $user->setAvatar($pictureFileName);
             }
 
             $manager->persist($user);
@@ -179,6 +178,29 @@ class UserController extends AbstractController
             'currentAvatar' => $user->getAvatar(),
             'form' => $form->createView(),
         ]);
+    }
+
+    /**
+     * @Route("/admin/supprimer-avatar", name="user_delete_avatar", methods={"DELETE"})
+     */
+    public function deleteAvatar(Request $request, Security $security, EntityManagerInterface $manager, FileUploader $fileUploader): Response
+    {
+        $user = $manager->getRepository(User::class)->findOneBy(['userName' => $security->getUser()->getUsername()]);
+
+
+        if ($this->isCsrfTokenValid('delete' . $user->getId(), $request->request->get('_token'))) {
+            $fileUploader->setTargetDirectory($fileUploader->getTargetDirectory() . '/avatars');
+
+            if (!preg_match('#default\/default#', $user->getAvatar())) {
+                $fileUploader->remove($user->getAvatar());
+                $user->setAvatar('default/default-avatar.jpg');
+
+                $manager->persist($user);
+                $manager->flush();
+            }
+        }
+
+        return $this->redirectToRoute('user_edit_avatar');
     }
 
     /**

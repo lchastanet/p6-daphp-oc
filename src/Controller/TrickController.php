@@ -42,6 +42,8 @@ class TrickController extends AbstractController
 
             $pictureFiles = $trick->getPictureFiles();
 
+            $fileUploader->setTargetDirectory($fileUploader->getTargetDirectory() . '/pictures');
+
             foreach ($pictureFiles as $pictureFile) {
                 $pictureFileName = $fileUploader->upload($pictureFile);
 
@@ -86,6 +88,8 @@ class TrickController extends AbstractController
 
             $pictureFiles = $trick->getPictureFiles();
 
+            $fileUploader->setTargetDirectory($fileUploader->getTargetDirectory() . '/pictures');
+
             foreach ($pictureFiles as $pictureFile) {
                 $pictureFileName = $fileUploader->upload($pictureFile);
 
@@ -112,6 +116,8 @@ class TrickController extends AbstractController
     {
         if ($this->isCsrfTokenValid('delete' . $trick->getId(), $request->request->get('_token'))) {
             $pictures = $trick->getPictures();
+
+            $fileUploader->setTargetDirectory($fileUploader->getTargetDirectory() . '/pictures');
 
             foreach ($pictures as $picture) {
                 $fileUploader->remove($picture->getURL());
