@@ -7,6 +7,7 @@ use App\Form\RegistrationType;
 use App\Form\UserType;
 use App\Form\ForgotPasswordType;
 use App\Form\ResetPasswordType;
+use App\Form\PictureType;
 use App\Repository\UserRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -17,6 +18,10 @@ use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 use Symfony\Component\Mime\Email;
+use Symfony\Component\Security\Core\Security;
+use App\Service\FileUploader;
+
+
 
 class UserController extends AbstractController
 {
@@ -139,29 +144,47 @@ class UserController extends AbstractController
     }
 
     /**
+     * @Route("/admin/modifier-avatar", name="user_edit_avatar", methods={"GET","POST"})
+     */
+    public function edit(Request $request, Security $security, EntityManagerInterface $manager, FileUploader $fileUploader): Response
+    {
+        $user = $manager->getRepository(User::class)->findOneBy(['userName' => $security->getUser()->getUsername()]);
+
+        $form = $this->createForm(PictureType::class);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+
+            $pictureFile = $form->get('URL')->getData();
+
+            $regx = '#^pictures\/#';
+
+            if (preg_match($regx, $user->getAvatar())) {
+                $oldAvatar = preg_replace($regx, '', $user->getAvatar());
+                $fileUploader->remove($oldAvatar);
+            }
+
+            if ($pictureFile) {
+                $pictureFileName = $fileUploader->upload($pictureFile);
+                $user->setAvatar('pictures/' . $pictureFileName);
+            }
+
+            $manager->persist($user);
+            $manager->flush();
+
+            return $this->redirectToRoute('user_edit_avatar');
+        }
+
+        return $this->render('user/edit_avatar.html.twig', [
+            'currentAvatar' => $user->getAvatar(),
+            'form' => $form->createView(),
+        ]);
+    }
+
+    /**
      * @Route("/deconnexion", name="user_logout")
      */
     public function logout()
     {
-    }
-
-    /**
-     * @Route("/user/{id}/edit", name="user_edit", methods={"GET","POST"})
-     */
-    public function edit(Request $request, User $user): Response
-    {
-        $form = $this->createForm(UserType::class, $user);
-        $form->handleRequest($request);
-
-        if ($form->isSubmitted() && $form->isValid()) {
-            $this->getDoctrine()->getManager()->flush();
-
-            return $this->redirectToRoute('user_index');
-        }
-
-        return $this->render('user/edit.html.twig', [
-            'user' => $user,
-            'form' => $form->createView(),
-        ]);
     }
 }

@@ -29,7 +29,7 @@ class TrickController extends AbstractController
     }
 
     /**
-     * @Route("/admin/trick/new", name="trick_new", methods={"GET","POST"})
+     * @Route("/admin/trick/nouveau", name="trick_new", methods={"GET","POST"})
      */
     public function new(Request $request, FileUploader $fileUploader, Security $security): Response
     {
@@ -74,7 +74,7 @@ class TrickController extends AbstractController
     }
 
     /**
-     * @Route("/admin/trick/{id}/edit", name="trick_edit", methods={"GET","POST"})
+     * @Route("/admin/trick/{id}/modifier", name="trick_edit", methods={"GET","POST"})
      */
     public function edit(Request $request, Trick $trick, FileUploader $fileUploader, Security $security): Response
     {
