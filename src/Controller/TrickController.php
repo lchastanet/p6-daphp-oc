@@ -4,7 +4,9 @@ namespace App\Controller;
 
 use App\Entity\Trick;
 use App\Entity\Picture;
+use App\Entity\Comment;
 use App\Form\TrickType;
+use App\Form\CommentType;
 use App\Repository\TrickRepository;
 use App\Service\FileUploader;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -70,8 +72,15 @@ class TrickController extends AbstractController
      */
     public function show(Trick $trick): Response
     {
+        $comment = new Comment();
+
+        $form = $this->createForm(CommentType::class, $comment, [
+            'action' => $this->generateUrl('comment_new', ['idTrick' => $trick->getId()])
+        ]);
+
         return $this->render('trick/show.html.twig', [
             'trick' => $trick,
+            'form' => $form->createView()
         ]);
     }
 

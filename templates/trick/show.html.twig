@@ -37,9 +37,18 @@
             </tr>
         </tbody>
     </table>
+    <hr>
     {% if app.user %}
-        <a class="btn btn-primary" href="{{ path('trick_edit', {'id': trick.id}) }}">Modifier</a>
-
-        {{ include('trick/_delete_form.html.twig') }}
+        {{ include('comment/new.html.twig') }}
     {% endif %}
+    <hr>
+    {% if trick.comments is empty %}
+        <p>Aucun commentaire pour ce trick pour le moment!</p>    
+    {% else %}
+        {% for comment in trick.comments %}
+            <strong>{{ comment.user.userName }}</strong>
+            <p>{{ comment.content }}</p>
+        {% endfor %}
+    {% endif %}
+
 {% endblock %}
