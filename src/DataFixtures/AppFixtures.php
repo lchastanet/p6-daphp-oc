@@ -29,15 +29,6 @@ class AppFixtures extends Fixture
 
         $manager->persist($user);
 
-        $user = new User();
-
-        $user->setUserName('arthur')
-            ->setEmail('hello@arthur.doe')
-            ->setPassword($this->encoder->encodePassword($user, 'azerty'))
-            ->setAvatar('default/default-avatar.jpg');
-
-        $manager->persist($user);
-
         $groupe = new Groupe();
 
         $groupe->setName('grabs');
@@ -61,7 +52,8 @@ class AppFixtures extends Fixture
         $trick->setTitle('mute')
             ->setDescription('Saisie de la carre frontside de la planche entre les deux pieds avec la main avant.')
             ->setGroupe($groupe)
-            ->setUser($user);
+            ->setUser($user)
+            ->setCreatedAt(new \DateTime());
 
         $manager->persist($trick);
 
@@ -70,7 +62,8 @@ class AppFixtures extends Fixture
         $trick->setTitle('sad')
             ->setDescription('Saisie de la carre backside de la planche, entre les deux pieds, avec la main avant.')
             ->setGroupe($groupe)
-            ->setUser($user);
+            ->setUser($user)
+            ->setCreatedAt(new \DateTime());
 
         $manager->persist($trick);
 
@@ -79,7 +72,8 @@ class AppFixtures extends Fixture
         $trick->setTitle('indy')
             ->setDescription('Saisie de la carre frontside de la planche, entre les deux pieds, avec la main arrière.')
             ->setGroupe($groupe)
-            ->setUser($user);
+            ->setUser($user)
+            ->setCreatedAt(new \DateTime());
 
         $manager->persist($trick);
 

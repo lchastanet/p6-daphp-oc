@@ -13,12 +13,12 @@ use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Core\Security;
 
 /**
- * @Route("/comment")
+ * @Route("/admin/comment")
  */
 class CommentController extends AbstractController
 {
     /**
-     * @Route("/admin/new/{idTrick}", name="comment_new", methods={"GET","POST"})
+     * @Route("/new/{idTrick}", name="comment_new", methods={"GET","POST"})
      */
     public function new(Request $request, Security $security, $idTrick, TrickRepository $trickRepository): Response
     {
