@@ -40,6 +40,8 @@
     <hr>
     {% if app.user %}
         {{ include('comment/new.html.twig') }}
+    {% else %}
+        <p>Vous devez vous <a href="{{ path('user_login') }}">connecter</a> pour laisser un commentaire !</p>
     {% endif %}
     <hr>
     {% if trick.comments is empty %}
