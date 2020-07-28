@@ -3,35 +3,28 @@
 {% block title %}Trick index{% endblock %}
 
 {% block body %}
-    <h1>Accueil</h1>
+    <header class="jumbotron jumbotron-fluid jumbotron-snow">
+        <div class="container-fluid text-center"> 
+            <h1 class="display-3">SnowTricks</h1>
+            <p class="lead pb-4">Le site des tricks en snowboard!</p>
+        </div>
+    </header>
+    <div class="container">
+        <h1>Accueil</h1>
+        <hr>
 
-    <table class="table">
-        <thead>
-            <tr>
-                <th>Titre</th>
-                <th>Description</th>
-                <th>Groupe</th>
-                <th>actions</th>
-            </tr>
-        </thead>
-        <tbody>
         {% for trick in tricks %}
-            <tr>
-                <td>{{ trick.title }}</td>
-                <td>{{ trick.description }}</td>
-                <td>{{ trick.groupe.name }}</td>
-                <td>
+            <div class="card" style="width:400px">
+                <img class="card-img-top" src="" alt="Card image">
+                <div class="card-body">
+                    <h4 class="card-title">{{ trick.title }}</h4>
+                    <p class="card-text">{{ trick.description }}</p>
                     <a class="btn btn-success" href="{{ path('trick_show', {'id': trick.id}) }}">Afficher</a>
                     {% if app.user %}
                         <a class="btn btn-primary" href="{{ path('trick_edit', {'id': trick.id}) }}">Modifier</a>
                     {% endif %}
-                </td>
-            </tr>
-        {% else %}
-            <tr>
-                <td colspan="4">Aucun trick en base de donnée</td>
-            </tr>
+                </div>
+            </div>
         {% endfor %}
-        </tbody>
-    </table>
+    </div>
 {% endblock %}

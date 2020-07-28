@@ -3,40 +3,27 @@
 {% block title %}Trick - {{ trick.title }}{% endblock %}
 
 {% block body %}
-    <h1>Trick</h1>
-
-    <table class="table">
-        <tbody>
-            <tr>
-                <th>Title</th>
-                <td>{{ trick.title }}</td>
-            </tr>
-            <tr>
-                <th>Description</th>
-                <td>{{ trick.description }}</td>
-            </tr>
-            <tr>
-                <th>Groupe</th>
-                <td>{{ trick.groupe.name }}</td>
-            </tr>
-            <tr>
-                <th>Images</th>
-                {% for picture in trick.pictures %}
-                    <td><img src="{{ asset('uploads/pictures/' ~ picture.URL) }}" width="300" height="200"></td>
-                {% endfor %}
-            </tr>
-            <tr>
-                <th>Videos</th>
-                {% for video in trick.videos %}
-                    <td><iframe width="300" height="200" src="{{ video.URL }}" frameborder="0"></iframe></td>
-                {% endfor %}
-            </tr>
-            <tr>
-                <th>Auteur</th>
-                <td>{{ trick.user.userName }}</td>
-            </tr>
-        </tbody>
-    </table>
+    <h1>{{ trick.title }}</h1>
+    <strong>Description :</strong>
+    <p>{{ trick.description }}</p>
+    <strong>Groupe :</strong>
+    <p>{{ trick.groupe.name }}</p>
+    <h2>Images</h2>
+    {% for picture in trick.pictures %}
+        <div class="card" style="width:400px">
+            <img class="card-img-top" src="{{ asset('uploads/pictures/' ~ picture.URL) }}" alt="Card image">
+            <div class="card-body">
+                <a class="btn btn-success" href="{{ path('trick_show', {'id': trick.id}) }}">Afficher</a>
+                {% if app.user %}
+                    <a class="btn btn-primary" href="{{ path('trick_edit', {'id': trick.id}) }}">Modifier</a>
+                {% endif %}
+            </div>
+        </div>
+    {% endfor %}
+    <h2>Videos</h2>
+        {% for video in trick.videos %}
+            <iframe width="300" height="200" src="{{ video.URL }}" frameborder="0"></iframe>
+        {% endfor %}
     <hr>
     {% if app.user %}
         {{ include('comment/new.html.twig') }}
@@ -48,6 +35,7 @@
         <p>Aucun commentaire pour ce trick pour le moment!</p>    
     {% else %}
         {% for comment in trick.comments %}
+            <img src="{{ asset('uploads/avatars/' ~ comment.user.avatar) }}" class="rounded-circle" width="75" height="75"> 
             <strong>{{ comment.user.userName }}</strong>
             <p>{{ comment.content }}</p>
         {% endfor %}
