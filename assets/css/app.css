@@ -1,0 +1,10 @@
+.jumbotron-home {
+  background: url("../medias/hero_background.jpg") no-repeat center;
+  border: none;
+  padding: 15rem 2rem;
+}
+
+.jumbotron-show {
+  border: none;
+  padding: 10rem 2rem;
+}

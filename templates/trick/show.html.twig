@@ -3,7 +3,13 @@
 {% block title %}Trick - {{ trick.title }}{% endblock %}
 
 {% block body %}
-    <h1>{{ trick.title }}</h1>
+    {% set pictureOne = trick.pictures.last() %}
+    {% set pictureOneURL = asset('uploads/pictures/' ~ pictureOne.URL) %}
+    <header class="jumbotron jumbotron-fluid jumbotron-show" style="background: url('{{ pictureOneURL }}') no-repeat center;">
+        <div class="container-fluid text-center"> 
+            <h1 class="display-3">{{ trick.title }}</h1>
+        </div>
+    </header>
     <strong>Description :</strong>
     <p>{{ trick.description }}</p>
     <strong>Groupe :</strong>

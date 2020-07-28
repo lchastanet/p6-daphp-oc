@@ -3,7 +3,7 @@
 {% block title %}Trick index{% endblock %}
 
 {% block body %}
-    <header class="jumbotron jumbotron-fluid jumbotron-snow">
+    <header class="jumbotron jumbotron-fluid jumbotron-home">
         <div class="container-fluid text-center"> 
             <h1 class="display-3">SnowTricks</h1>
             <p class="lead pb-4">Le site des tricks en snowboard!</p>
@@ -14,14 +14,15 @@
         <hr>
 
         {% for trick in tricks %}
+            {% set pictureOne = trick.pictures.last() %}
             <div class="card" style="width:400px">
-                <img class="card-img-top" src="" alt="Card image">
+                <a class="card-title" href="{{ path('trick_show', {'id': trick.id}) }}">
+                    <img class="card-img-top" src="{{ asset('uploads/pictures/' ~ pictureOne.URL) }}" alt="Card image">
+                </a>
                 <div class="card-body">
-                    <h4 class="card-title">{{ trick.title }}</h4>
-                    <p class="card-text">{{ trick.description }}</p>
-                    <a class="btn btn-success" href="{{ path('trick_show', {'id': trick.id}) }}">Afficher</a>
+                    <a class="card-title" href="{{ path('trick_show', {'id': trick.id}) }}">{{ trick.title }}</a>
                     {% if app.user %}
-                        <a class="btn btn-primary" href="{{ path('trick_edit', {'id': trick.id}) }}">Modifier</a>
+                        <a class="btn" href="{{ path('trick_edit', {'id': trick.id}) }}">{{ include('_utils/_pencil.html.twig') }}</a>
                     {% endif %}
                 </div>
             </div>
