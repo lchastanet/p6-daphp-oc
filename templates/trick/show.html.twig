@@ -5,9 +5,9 @@
 {% block body %}
     {% set pictureOne = trick.pictures.last() %}
     {% set pictureOneURL = asset('uploads/pictures/' ~ pictureOne.URL) %}
-    <header class="jumbotron jumbotron-fluid jumbotron-show" style="background: url('{{ pictureOneURL }}') no-repeat center;">
+    <header class="jumbotron jumbotron-fluid jumbotron-show" style="background: url('{{ pictureOneURL }}'); background-repeat: no-repeat; background-position: center; background-size: cover;">
         <div class="container-fluid text-center"> 
-            <h1 class="display-3">{{ trick.title }}</h1>
+            <h1 class="display-3">{{ trick.title | capitalize }}</h1>
         </div>
     </header>
     <strong>Description :</strong>
@@ -15,7 +15,7 @@
     <strong>Groupe :</strong>
     <p>{{ trick.groupe.name }}</p>
     <h2>Images</h2>
-    {% for picture in trick.pictures %}
+    {% for picture in trick.pictures | reverse %}
         <div class="card" style="width:400px">
             <img class="card-img-top" src="{{ asset('uploads/pictures/' ~ picture.URL) }}" alt="Card image">
             <div class="card-body">
