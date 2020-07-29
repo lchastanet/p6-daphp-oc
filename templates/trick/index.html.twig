@@ -17,7 +17,7 @@
                 {% set pictureOne = trick.pictures.last() %}
                 <div class="card p-2 m-2 d-flex" style="width:250px">
                     <a class="card-title" href="{{ path('trick_show', {'id': trick.id}) }}">
-                        <img class="card-img-top card-img-index" src="{{ asset('uploads/pictures/' ~ pictureOne.URL) }}" alt="Card image">
+                        <img class="card-img-top card-img-index" src="{% if pictureOne %}{{ asset('uploads/pictures/' ~ pictureOne.URL) }}{% endif %}">
                     </a>
                     <div class="card-body card-body-index">
                         <div class="d-flex felx-row">
