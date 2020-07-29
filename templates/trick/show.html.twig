@@ -10,41 +10,47 @@
             <h1 class="display-3">{{ trick.title | capitalize }}</h1>
         </div>
     </header>
-    <strong>Description :</strong>
-    <p>{{ trick.description }}</p>
-    <strong>Groupe :</strong>
-    <p>{{ trick.groupe.name }}</p>
-    <h2>Images</h2>
-    {% for picture in trick.pictures | reverse %}
-        <div class="card" style="width:400px">
-            <img class="card-img-top" src="{{ asset('uploads/pictures/' ~ picture.URL) }}" alt="Card image">
-            <div class="card-body">
-                <a class="btn btn-success" href="{{ path('trick_show', {'id': trick.id}) }}">Afficher</a>
-                {% if app.user %}
-                    <a class="btn btn-primary" href="{{ path('trick_edit', {'id': trick.id}) }}">Modifier</a>
-                {% endif %}
-            </div>
+    <div class="container">
+        <div class="media-container d-flex flex-wrap justify-content-center">
+            {% for picture in trick.pictures | reverse %}
+                <img class="img-show-trick m-2" src="{{ asset('uploads/pictures/' ~ picture.URL) }}" alt="Card image">
+            {% endfor %}
+            {% for video in trick.videos %}
+                <iframe class="video-show-trick m-2" width="300" height="200" src="{{ video.URL }}" frameborder="0"></iframe>
+            {% endfor %}
         </div>
-    {% endfor %}
-    <h2>Videos</h2>
-        {% for video in trick.videos %}
-            <iframe width="300" height="200" src="{{ video.URL }}" frameborder="0"></iframe>
-        {% endfor %}
-    <hr>
-    {% if app.user %}
-        {{ include('comment/new.html.twig') }}
-    {% else %}
-        <p>Vous devez vous <a href="{{ path('user_login') }}">connecter</a> pour laisser un commentaire !</p>
-    {% endif %}
-    <hr>
-    {% if trick.comments is empty %}
-        <p>Aucun commentaire pour ce trick pour le moment!</p>    
-    {% else %}
-        {% for comment in trick.comments %}
-            <img src="{{ asset('uploads/avatars/' ~ comment.user.avatar) }}" class="rounded-circle" width="75" height="75"> 
-            <strong>{{ comment.user.userName }}</strong>
-            <p>{{ comment.content }}</p>
-        {% endfor %}
-    {% endif %}
-
+        <hr>
+        <div class="description-container mx-5">
+            <p class="trick-description">{{ trick.description }}</p>
+            <p><span class="badge badge-pill badge-primary">{{ trick.groupe.name }}</span></p>
+        </div>  
+        <hr>
+        <div class="comment-form-container mx-5">
+            {% if app.user %}
+                {{ include('comment/new.html.twig') }}
+            {% else %}
+                <p>Vous devez vous <a href="{{ path('user_login') }}">connecter</a> pour laisser un commentaire !</p>
+            {% endif %}
+        </div>
+        <hr>
+        <div class="comment-form-container m-5">
+            {% if trick.comments is empty %}
+                <p>Aucun commentaire pour ce trick pour le moment!</p>    
+            {% else %}
+                <h5>Commentaires</h5>
+                {% for comment in trick.comments | reverse %}
+                    <div class="row comment-card mt-4">
+                        <div class="col-sm-2 text-center my-auto">
+                            <img src="{{ asset('uploads/avatars/' ~ comment.user.avatar) }}" class="rounded-circle" width="75" height="75">
+                            <br>
+                            <p class="mb-0"><strong>{{ comment.user.userName }}</strong></p>
+                        </div>
+                        <div class="col-sm-10 comment-container px-4 d-flex">
+                            <p class="my-auto">{{ comment.content }}</p>
+                        </div>
+                    </div>
+                {% endfor %}
+            {% endif %}
+        </div>
+    </div>
 {% endblock %}

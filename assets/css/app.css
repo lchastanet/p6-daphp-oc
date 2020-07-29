@@ -31,6 +31,31 @@ svg {
   max-height: 120px;
 }
 
+.card-img-index:hover,
+.img-show-trick:hover {
+  filter: brightness(75%);
+  cursor: pointer;
+}
+
+.img-show-trick {
+  height: 200px;
+  width: 300px;
+  border-radius: 5px;
+}
+
+.trick-description {
+  font-size: 1.2rem;
+}
+
+.comment-card {
+  margin-bottom: 2rem;
+}
+
+.comment-container {
+  border: solid lightgrey 1px;
+  border-radius: 5px;
+}
+
 footer {
   margin-top: 2rem;
   padding: 0.5rem;

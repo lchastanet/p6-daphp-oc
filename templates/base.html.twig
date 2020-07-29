@@ -17,11 +17,11 @@
 
             <div class="collapse navbar-collapse" id="navbarColor01">
                 <ul class="navbar-nav ml-auto">
-                <li class="nav-item active">
+                <li class="nav-item">
                         <a class="nav-link" href="{{ path('trick_index') }}">Accueil</a>
                     </li>
                     {% if not app.user %}
-                        <li class="nav-item active">
+                        <li class="nav-item">
                             <a class="nav-link" href="{{ path('user_login') }}">Se connecter</a>
                         </li>
                     {% else %}
