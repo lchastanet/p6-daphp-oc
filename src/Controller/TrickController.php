@@ -41,6 +41,7 @@ class TrickController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             $trick->setUser($security->getUser());
+            $trick->setCreatedAt(new \DateTime());
 
             $pictureFiles = $trick->getPictureFiles();
 
@@ -94,6 +95,7 @@ class TrickController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             $trick->setUser($security->getUser());
+            $trick->setUpdatedAt(new \DateTime());
 
             $pictureFiles = $trick->getPictureFiles();
 

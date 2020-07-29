@@ -6,8 +6,14 @@
     {% set pictureOne = trick.pictures.last() %}
     {% set pictureOneURL = asset('uploads/pictures/' ~ pictureOne.URL) %}
     <header class="jumbotron jumbotron-fluid jumbotron-show" style="background: url('{{ pictureOneURL }}'); background-repeat: no-repeat; background-position: center; background-size: cover;">
+    {% if app.user %}
+        <div class="container-control-trick text-right mb-5 mt-0">
+            <a class="btn" href="{{ path('trick_edit', {'id': trick.id}) }}">{{ include('_utils/_pencil.html.twig') }}</a>
+            {{ include('trick/_delete_form.html.twig') }}  
+        </div>
+    {% endif %}
         <div class="container-fluid text-center"> 
-            <h1 class="display-3">{{ trick.title | capitalize }}</h1>
+            <h1 class="display-3 m-auto">{{ trick.title | capitalize }}</h1>
         </div>
     </header>
     <div class="container">

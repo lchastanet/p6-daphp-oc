@@ -2,6 +2,11 @@ svg {
   font-size: 1rem;
 }
 
+html,
+body {
+  height: 100vh;
+}
+
 .jumbotron-home {
   background: url("../medias/hero_background.jpg") no-repeat center;
   border: none;
@@ -24,10 +29,11 @@ svg {
 }
 
 .card-title-index {
-  font-size: 1.1rem;
+  font-size: 1rem;
 }
 
-.card-img-index {
+.card-img-index,
+.card-img-edit {
   max-height: 120px;
 }
 
@@ -54,6 +60,38 @@ svg {
 .comment-container {
   border: solid lightgrey 1px;
   border-radius: 5px;
+}
+
+.container-control-trick {
+  position: absolute;
+  top: 5em;
+  right: 1em;
+  z-index: 1;
+  background-color: rgb(230, 230, 230, 0.6);
+  border-radius: 7px;
+  border: solid grey 1px;
+}
+
+.container-control-trick > a.btn {
+  border-radius: 7px 7px 0px 0px;
+  border-bottom: solid grey 1px;
+}
+
+.container-control-trick > a.btn:hover {
+  box-shadow: none;
+}
+
+nav.navbar {
+  z-index: 5;
+}
+
+.container-control-trick div.btn {
+  padding: 0;
+}
+
+.login-container {
+  border: solid lightgrey 1px;
+  border-radius: 7px;
 }
 
 footer {

@@ -14,7 +14,7 @@
         <hr>
         <div class="d-flex flex-wrap justify-content-start">
             {% for trick in tricks %}
-            {% set pictureOne = trick.pictures.last() %}
+                {% set pictureOne = trick.pictures.last() %}
                 <div class="card p-2 m-2 d-flex" style="width:250px">
                     <a class="card-title" href="{{ path('trick_show', {'id': trick.id}) }}">
                         <img class="card-img-top card-img-index" src="{{ asset('uploads/pictures/' ~ pictureOne.URL) }}" alt="Card image">

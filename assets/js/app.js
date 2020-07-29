@@ -2,9 +2,7 @@ import "../css/app.css";
 
 $(() => {
   const $collectionHolder = $("div.videos");
-  const $addButton = $(
-    '<button class="btn btn-primary">Ajouter une video</button>'
-  );
+  const $addButton = $('<div class="btn btn-primary">Ajouter une video</div>');
 
   $collectionHolder.after($addButton);
 

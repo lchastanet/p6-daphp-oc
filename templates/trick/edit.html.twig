@@ -1,27 +1,43 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Modifier le Trick{% endblock %}
+{% block title %}Modifier - {{ trick.title | capitalize }}{% endblock %}
 
 {% block body %}
-    <h1>Modifier le Trick</h1>
+    {% set pictureOne = trick.pictures.last() %}
+    {% set pictureOneURL = asset('uploads/pictures/' ~ pictureOne.URL) %}
+    <header class="jumbotron jumbotron-fluid jumbotron-show" style="background: url('{{ pictureOneURL }}'); background-repeat: no-repeat; background-position: center; background-size: cover;">
+        <div class="container-fluid text-center"> 
+            <h1 class="display-3">{{ trick.title | capitalize }}</h1> 
+        </div>
+    </header>
+    <div class="container">
+        <div class="d-flex flex-wrap justify-content-start">
+            {% for picture in trick.pictures | reverse %}
+                <div class="card p-2 m-2 d-flex" style="width:250px">
+                    <img class="card-img-top card-img-edit" src="{{ asset('uploads/pictures/' ~ picture.URL) }}" alt="Card image">
+                    <div class="card-body card-body-index">
+                        <div class="d-flex flex-row-reverse">
+                            {{ include('picture/_delete_form.html.twig') }}
+                            <a class="btn" href="{{ path('picture_edit', {'id': picture.id}) }}">{{ include('_utils/_pencil.html.twig') }}</a>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
 
-    {% for picture in trick.pictures %}
-        <img src="{{ asset('uploads/pictures/' ~ picture.URL) }}" width="300" height="200">
-        <a href="{{ path('picture_edit', {'id': picture.id}) }}">
-            {{ include('_utils/_pencil.html.twig') }}
-        </a>
-        {{ include('picture/_delete_form.html.twig') }}
-    {% endfor %}
+            {% for video in trick.videos %}
+                <div class="card p-2 m-2 d-flex" style="width:250px">
+                    <iframe width="230" height="120" src="{{ video.URL }}" frameborder="0"></iframe>
+                    <div class="card-body card-body-index">
+                        <div class="d-flex flex-row-reverse">
+                            {{ include('video/_delete_form.html.twig') }}
+                            <a class="btn" href="{{ path('video_edit', {'id': video.id}) }}">{{ include('_utils/_pencil.html.twig') }}</a>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+        {{ include('trick/_form.html.twig', {'button_label': 'Modifier'}) }}
 
-    {% for video in trick.videos %}
-        <iframe width="300" height="200" src="{{ video.URL }}" frameborder="0"></iframe>
-        <a href="{{ path('video_edit', {'id': video.id}) }}">
-            {{ include('_utils/_pencil.html.twig') }}
-        </a>
-        {{ include('video/_delete_form.html.twig') }}
-    {% endfor %}
-
-    {{ include('trick/_form.html.twig', {'button_label': 'Modifier'}) }}
-
-    {{ include('trick/_delete_form.html.twig') }}
+        {{ include('trick/_delete_form.html.twig') }}
+    </div>
 {% endblock %}
