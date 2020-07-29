@@ -47,7 +47,7 @@ php -S localhost:8000 -t public
 If you need to modify the **js** or **css** files then you need to install dependencies
 
 ```shell
-yarn install 
+yarn install
 ```
 
-Then take a look to [symfony encore bundle]([Encore: Setting up your Project (Symfony Docs)](https://symfony.com/doc/current/frontend/encore/simple-example.html)) on official doc.
+Then take a look to [symfony encore bundle](https://symfony.com/doc/current/frontend/encore/simple-example.html) on official doc.
