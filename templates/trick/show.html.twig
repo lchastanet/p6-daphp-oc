@@ -30,7 +30,13 @@
         <hr>
         <div class="description-container mx-5">
             <p class="trick-description">{{ trick.description }}</p>
-            <p><span class="badge badge-pill badge-primary">{{ trick.groupe.name }}</span></p>
+            <p>
+                <span class="badge badge-pill badge-primary">{{ trick.groupe.name }}</span>
+                <span class="badge badge-light">Créé le <em>{{ trick.createdAt|date("d/m/Y à h:i", "Europe/Paris") }}</em></span>
+                {% if trick.updatedAt %}
+                    <span class="badge badge-light">Modifié le <em>{{ trick.updatedAt|date("d/m/Y à h:i", "Europe/Paris") }}</em></span>
+                {% endif %}
+            </p>
         </div>  
         <hr>
         <div class="comment-form-container mx-5">

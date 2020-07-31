@@ -36,7 +36,17 @@
                 </div>
             {% endfor %}
         </div>
-        {{ include('trick/_form.html.twig', {'button_label': 'Modifier'}) }}
+        {{ form_start(form) }}
+            {{ form_row(form.description) }}
+            {{ form_row(form.groupe) }}
+            {{ form_row(form.pictureFiles) }}
+            <label for="">Videos</label>
+            {% for video in form.videos %}
+                {{ form_row(video, { 'attr': {'class': 'hidden-row'}}) }}
+            {% endfor %}
+            <div class="videos" data-prototype="{{ form_widget(form.videos.vars.prototype)|e('html_attr') }}"></div>
+            <button class="btn btn-success">Modifier</button>
+        {{ form_end(form) }}
 
         {{ include('trick/_delete_form.html.twig') }}
     </div>

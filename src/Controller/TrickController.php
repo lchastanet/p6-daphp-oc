@@ -5,7 +5,8 @@ namespace App\Controller;
 use App\Entity\Trick;
 use App\Entity\Picture;
 use App\Entity\Comment;
-use App\Form\TrickType;
+use App\Form\NewTrickType;
+use App\Form\EditTrickType;
 use App\Form\CommentType;
 use App\Repository\TrickRepository;
 use App\Service\FileUploader;
@@ -36,7 +37,7 @@ class TrickController extends AbstractController
     public function new(Request $request, FileUploader $fileUploader, Security $security): Response
     {
         $trick = new Trick();
-        $form = $this->createForm(TrickType::class, $trick);
+        $form = $this->createForm(NewTrickType::class, $trick);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
@@ -90,7 +91,7 @@ class TrickController extends AbstractController
      */
     public function edit(Request $request, Trick $trick, FileUploader $fileUploader, Security $security): Response
     {
-        $form = $this->createForm(TrickType::class, $trick);
+        $form = $this->createForm(EditTrickType::class, $trick);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {

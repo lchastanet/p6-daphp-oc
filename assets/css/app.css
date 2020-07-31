@@ -94,6 +94,10 @@ nav.navbar {
   border-radius: 7px;
 }
 
+.hidden-row {
+  display: none;
+}
+
 footer {
   margin-top: 2rem;
   padding: 0.5rem;
