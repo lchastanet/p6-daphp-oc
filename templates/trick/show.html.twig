@@ -4,8 +4,10 @@
 
 {% block body %}
     {% set pictureOne = trick.pictures.last() %}
-    {% set pictureOneURL = asset('uploads/pictures/' ~ pictureOne.URL) %}
-    <header class="jumbotron jumbotron-fluid jumbotron-show" style="background: url('{{ pictureOneURL }}'); background-repeat: no-repeat; background-position: center; background-size: cover;">
+    {% if pictureOne %}
+        {% set pictureOneURL = asset('uploads/pictures/' ~ pictureOne.URL) %}
+    {% endif %}
+    <header class="jumbotron jumbotron-fluid jumbotron-show" style="background: url('{% if pictureOneURL is defined %}{{ pictureOneURL }}{% endif %}'); background-repeat: no-repeat; background-position: center; background-size: cover;">
     {% if app.user %}
         <div class="container-control-trick text-right mb-5 mt-0">
             <a class="btn" href="{{ path('trick_edit', {'id': trick.id}) }}">{{ include('_utils/_pencil.html.twig') }}</a>

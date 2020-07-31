@@ -12,7 +12,9 @@ class VideoType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $builder->add('URL');
+        $builder->add('URL', TextType::class, [
+            'label' => 'Lien "embed" de la video',
+        ]);
     }
 
     public function configureOptions(OptionsResolver $resolver)
