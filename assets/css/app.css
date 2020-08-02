@@ -94,8 +94,12 @@ nav.navbar {
   border-radius: 7px;
 }
 
-.hidden-row {
+fieldset.form-group {
   display: none;
+}
+
+.dropdown-menu {
+  left: -60px;
 }
 
 .custom-file-label::after {
@@ -103,7 +107,6 @@ nav.navbar {
 }
 
 footer {
-  margin-top: 2rem;
   padding: 0.5rem;
   background-color: #009ac2;
 }

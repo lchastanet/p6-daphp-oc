@@ -21,7 +21,7 @@
     <div class="container">
         <div class="media-container d-flex flex-wrap justify-content-center">
             {% for picture in trick.pictures | reverse %}
-                <img class="img-show-trick m-2" src="{{ asset('uploads/pictures/' ~ picture.URL) }}" alt="Card image">
+            <a href="{{ asset('uploads/pictures/' ~ picture.URL) }}"><img class="img-show-trick m-2" src="{{ asset('uploads/pictures/' ~ picture.URL) }}" alt="Card image"></a>
             {% endfor %}
             {% for video in trick.videos %}
                 <iframe class="video-show-trick m-2" width="300" height="200" src="{{ video.URL }}" frameborder="0"></iframe>

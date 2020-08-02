@@ -45,16 +45,16 @@
                         {{ form_row(form.pictureFiles, {'label': 'Photo(s) à uploader'}) }}
                         <label for="">Videos</label>
                         {% for video in form.videos %}
-                            {{ form_row(video, { 'attr': {'class': 'hidden-row'}}) }}
+                            {{ form_row(video) }}
                         {% endfor %}
                         <div class="videos" data-prototype="{{ form_widget(form.videos.vars.prototype)|e('html_attr') }}"></div>
-                        <button class="btn btn-success">Modifier</button>
+                        <button class="btn btn-success float-right">Modifier</button>
                     {{ form_end(form) }}
 
                     <form method="post" action="{{ path('trick_delete', {'id': trick.id}) }}" onsubmit="return confirm('Êtes vous sûr de vousloir supprimer ce trick?');">
                         <input type="hidden" name="_method" value="DELETE">
                         <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ trick.id) }}">
-                        <button class="btn btn-danger">Supprimer le trick</button>
+                        <button class="btn btn-danger float-right mt-2">Supprimer</button>
                     </form>
                 </div>
             </div>
