@@ -134,13 +134,40 @@ class UserController extends AbstractController
             }
 
             return $this->render('user/reset_password.html.twig', [
-                'form' => $form->createView()
+                'form' => $form->createView(),
+                'title' => 'Réinitialiser votre mot de passe.'
             ]);
         }
 
         $this->addFlash('danger', 'Le lien est invalide ou à expiré!');
 
         return $this->redirectToRoute('trick_index');
+    }
+
+    /**
+     * @Route("/admin/changer-mot-de-passe", name="user_change_password", methods={"GET","POST"})
+     */
+    public function changePassword(Request $request, Security $security, EntityManagerInterface $manager, UserPasswordEncoderInterface $encoder)
+    {
+        $user = $manager->getRepository(User::class)->findOneBy(['userName' => $security->getUser()->getUsername()]);
+
+        $form = $this->createForm(ResetPasswordType::class, $user);
+
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $user->setPassword($encoder->encodePassword($user, $user->getPassword()));
+
+            $manager->persist($user);
+            $manager->flush();
+
+            $this->addFlash('success', 'Votre mot de passe à bien été modifié!');
+        }
+
+        return $this->render('user/reset_password.html.twig', [
+            'form' => $form->createView(),
+            'title' => 'Changer votre mot de passe.'
+        ]);
     }
 
     /**
