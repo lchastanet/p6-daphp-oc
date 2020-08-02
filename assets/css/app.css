@@ -98,6 +98,10 @@ nav.navbar {
   display: none;
 }
 
+.custom-file-label::after {
+  content: "Sélectionner";
+}
+
 footer {
   margin-top: 2rem;
   padding: 0.5rem;

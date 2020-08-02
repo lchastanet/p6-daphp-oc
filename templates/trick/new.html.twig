@@ -3,18 +3,25 @@
 {% block title %}Ajouter un Trick{% endblock %}
 
 {% block body %}
-    <div class="container">
-        <h1>Ajouter un Trick</h1>
+    <div class="container" style="min-height:100%;">
+        <div class="row">
+            <div class="col-8 mx-auto mt-5">
+                <h1>Ajouter un Trick</h1>
 
-        {{ form_start(form) }}
-            {{ form_row(form.title) }}
-            {{ form_row(form.description) }}
-            {{ form_row(form.groupe) }}
-            {{ form_row(form.pictureFiles) }}
-            {{ form_widget(form._token) }}
-            <label for="">Videos</label>
-            <div class="videos" data-prototype="{{ form_widget(form.videos.vars.prototype)|e('html_attr') }}"></div>
-            <button class="btn btn-success">Enregistrer</button>
-        {{ form_end(form) }}
+                {{ form_start(form) }}
+                    {{ form_row(form.title, {
+                        'label': 'Titre',
+                        'attr': { 'placeholder': 'Titre du trick' }
+                    }) }}
+                    {{ form_row(form.description, {'attr': { 'placeholder': 'Description du trick' }}) }}
+                    {{ form_row(form.groupe) }}
+                    {{ form_row(form.pictureFiles, {'label': 'Photo(s) à uploader'}) }}
+                    <label for="">Videos</label>
+                    <div class="row videos" data-prototype="{{ form_widget(form.videos.vars.prototype)|e('html_attr') }}"></div>
+                    <button class="btn btn-success">Enregistrer</button>
+                {{ form_end(form) }}
+        </div>
+            </div>
+        </div>
     </div>
 {% endblock %}

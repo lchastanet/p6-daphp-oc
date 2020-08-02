@@ -40,11 +40,15 @@
         </div>  
         <hr>
         <div class="comment-form-container mx-5">
-            {% if app.user %}
-                {{ include('comment/new.html.twig') }}
-            {% else %}
-                <p>Vous devez vous <a href="{{ path('user_login') }}">connecter</a> pour laisser un commentaire !</p>
-            {% endif %}
+            <div class="row">
+                <div class="col-10 mx-auto">
+                    {% if app.user %}
+                        {{ include('comment/new.html.twig') }}
+                    {% else %}
+                        <p>Vous devez vous <a href="{{ path('user_login') }}">connecter</a> pour laisser un commentaire !</p>
+                    {% endif %}
+                </div>
+            </div>
         </div>
         <hr>
         <div class="comment-form-container m-5">
@@ -59,7 +63,7 @@
                             <br>
                             <p class="mb-0"><strong>{{ comment.user.userName }}</strong></p>
                         </div>
-                        <div class="col-sm-10 comment-container px-4 d-flex">
+                        <div class="col-sm-10 comment-container p-4 d-flex">
                             <p class="my-auto">{{ comment.content }}</p>
                         </div>
                     </div>

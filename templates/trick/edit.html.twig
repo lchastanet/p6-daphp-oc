@@ -11,7 +11,7 @@
         </div>
     </header>
     <div class="container">
-        <div class="d-flex flex-wrap justify-content-start">
+        <div class="d-flex flex-wrap justify-content-center">
             {% for picture in trick.pictures | reverse %}
                 <div class="card p-2 m-2 d-flex" style="width:250px">
                     <img class="card-img-top card-img-edit" src="{{ asset('uploads/pictures/' ~ picture.URL) }}" alt="Card image">
@@ -36,18 +36,28 @@
                 </div>
             {% endfor %}
         </div>
-        {{ form_start(form) }}
-            {{ form_row(form.description) }}
-            {{ form_row(form.groupe) }}
-            {{ form_row(form.pictureFiles) }}
-            <label for="">Videos</label>
-            {% for video in form.videos %}
-                {{ form_row(video, { 'attr': {'class': 'hidden-row'}}) }}
-            {% endfor %}
-            <div class="videos" data-prototype="{{ form_widget(form.videos.vars.prototype)|e('html_attr') }}"></div>
-            <button class="btn btn-success">Modifier</button>
-        {{ form_end(form) }}
+        <div class="container" style="height:100%;">
+            <div class="row">
+                <div class="col-8 mx-auto mt-5">
+                    {{ form_start(form) }}
+                        {{ form_row(form.description, {'attr': { 'placeholder': 'Description du trick' }}) }}
+                        {{ form_row(form.groupe) }}
+                        {{ form_row(form.pictureFiles, {'label': 'Photo(s) à uploader'}) }}
+                        <label for="">Videos</label>
+                        {% for video in form.videos %}
+                            {{ form_row(video, { 'attr': {'class': 'hidden-row'}}) }}
+                        {% endfor %}
+                        <div class="videos" data-prototype="{{ form_widget(form.videos.vars.prototype)|e('html_attr') }}"></div>
+                        <button class="btn btn-success">Modifier</button>
+                    {{ form_end(form) }}
 
-        {{ include('trick/_delete_form.html.twig') }}
+                    <form method="post" action="{{ path('trick_delete', {'id': trick.id}) }}" onsubmit="return confirm('Êtes vous sûr de vousloir supprimer ce trick?');">
+                        <input type="hidden" name="_method" value="DELETE">
+                        <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ trick.id) }}">
+                        <button class="btn btn-danger">Supprimer le trick</button>
+                    </form>
+                </div>
+            </div>
+        </div>
     </div>
 {% endblock %}
