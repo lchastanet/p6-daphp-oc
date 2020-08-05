@@ -3,18 +3,18 @@
 namespace App\Controller;
 
 use App\Entity\Trick;
-use App\Entity\Picture;
 use App\Entity\Comment;
+use App\Entity\Picture;
+use App\Form\CommentType;
 use App\Form\NewTrickType;
 use App\Form\EditTrickType;
-use App\Form\CommentType;
-use App\Repository\TrickRepository;
 use App\Service\FileUploader;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use App\Repository\TrickRepository;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Security\Core\Security;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Component\Security\Core\Security;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 /**
  * @Route("/")
@@ -27,8 +27,28 @@ class TrickController extends AbstractController
     public function index(TrickRepository $trickRepository): Response
     {
         return $this->render('trick/index.html.twig', [
-            'tricks' => $trickRepository->findAll(),
+            'tricks' => $trickRepository->getSome(8, 0),
         ]);
+    }
+
+    /**
+     * @Route("/charger-tricks/{index}", name="trick_load", methods={"GET"})
+     */
+    public function loadTricks($index, TrickRepository $trickRepository): Response
+    {
+        $tricks = $trickRepository->getSome(8, $index);
+
+        $datas = [];
+
+        foreach ($tricks as $trick) {
+            $data["id"] = $trick->getId();
+            $data["title"] = $trick->getTitle();
+            $data["pictureOne"] = $trick->getPictures()->last()->getURL();
+
+            array_push($datas, $data);
+        }
+
+        return $this->json($datas, 200);
     }
 
     /**
@@ -126,7 +146,7 @@ class TrickController extends AbstractController
      */
     public function delete(Request $request, Trick $trick, FileUploader $fileUploader): Response
     {
-        if ($this->isCsrfTokenValid('delete' . $trick->getId(), $request->request->get('_token'))) {
+        if ($this->isCsrfTokenValid('deleteTrick', $request->request->get('_token'))) {
             $pictures = $trick->getPictures();
 
             $fileUploader->setTargetDirectory($fileUploader->getTargetDirectory() . '/pictures');

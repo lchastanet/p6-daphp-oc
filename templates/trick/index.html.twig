@@ -12,28 +12,31 @@
     <div class="container">
         <h1>Accueil</h1>
         <hr>
-        <div class="d-flex flex-wrap justify-content-center mb-5">
+        <div id="homeTricksContainer" class="d-flex flex-wrap justify-content-center mb-5">
             {% for trick in tricks %}
                 {% set pictureOne = trick.pictures.last() %}
                 <div class="card p-2 m-2 d-flex" style="width:250px">
-                    <a class="card-title" href="{{ path('trick_show', {'id': trick.id}) }}">
+                    <a class="card-title card-header-link" href="{{ path('trick_show', {'id': trick.id}) }}">
                         <img class="card-img-top card-img-index" src="{% if pictureOne %}{{ asset('uploads/pictures/' ~ pictureOne.URL) }}{% endif %}">
                     </a>
                     <div class="card-body card-body-index">
                         <div class="d-flex felx-row">
                             <div class="mr-auto p-2 align-self-center">
-                                <a class="card-title card-title-index" href="{{ path('trick_show', {'id': trick.id}) }}">{{ trick.title | capitalize | slice(0, 12) }}</a>
+                                <a class="card-title card-title-index" href="{{ path('trick_show', {'id': trick.id}) }}">{{ trick.title }}</a>
                             </div>
                             {% if app.user %}
                                 <div class="p2">
-                                    <a class="btn" href="{{ path('trick_edit', {'id': trick.id}) }}">{{ include('_utils/_pencil.html.twig') }}</a>
+                                    <a class="btn edit-link" href="{{ path('trick_edit', {'id': trick.id}) }}">{{ include('_utils/_pencil.html.twig') }}</a>
                                 </div>
-                                <div class="p2">{{ include('trick/_delete_form.html.twig') }}</div>                   
+                                <div class="p2 card-util">{{ include('trick/_delete_form.html.twig') }}</div>                   
                         {% endif %}
                         </div>
                     </div>
                 </div>
             {% endfor %}
-        </div>    
+        </div>
+        <div class="d-flex flex-wrap justify-content-center mb-5">
+            <button id="homeTricksLoaderButton" value="8" class="btn btn-primary">Voir plus</button>
+        </div>  
     </div>
 {% endblock %}
