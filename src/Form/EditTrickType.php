@@ -13,12 +13,11 @@ use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 
 
-class TrickType extends AbstractType
+class EditTrickType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('title')
             ->add('description')
             ->add('groupe', EntityType::class, [
                 'class' => Groupe::class,

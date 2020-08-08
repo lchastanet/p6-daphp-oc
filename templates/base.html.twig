@@ -5,6 +5,7 @@
         <title>{% block title %}Welcome!{% endblock %}</title>
         {% block stylesheets %}
             <link rel="stylesheet" href="https://bootswatch.com/4/lumen/bootstrap.min.css">
+            {{ encore_entry_link_tags('app') }}
         {% endblock %}
     </head>
     <body>
@@ -16,21 +17,25 @@
 
             <div class="collapse navbar-collapse" id="navbarColor01">
                 <ul class="navbar-nav ml-auto">
-                <li class="nav-item active">
+                <li class="nav-item">
                         <a class="nav-link" href="{{ path('trick_index') }}">Accueil</a>
                     </li>
                     {% if not app.user %}
-                        <li class="nav-item active">
+                        <li class="nav-item">
                             <a class="nav-link" href="{{ path('user_login') }}">Se connecter</a>
                         </li>
                     {% else %}
-                        <li class="nav-item active">
+                        <li class="nav-item">
                             <a class="nav-link" href="{{ path('trick_new') }}">Ajouter un trick</a>
                         </li>
-                        <li class="nav-item active">
-                            <a class="nav-link" href="{{ path('user_edit_avatar') }}">Modifier avatar</a>
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false"><img class="rounded-circle" src="{{ asset('uploads/avatars/' ~ app.user.avatar) }}" width="25" height="25"></a>
+                            <div class="dropdown-menu" style="">
+                                <a class="dropdown-item" href="{{ path('user_edit_avatar') }}">Modifier avatar</a>
+                                <a class="dropdown-item" href="{{ path('user_change_password') }}">Changer mot de passe</a>
+                            </div>
                         </li>
-                        <li class="nav-item active">
+                        <li class="nav-item">
                             <a class="nav-link" href="{{ path('user_logout') }}">Déconnexion</a>
                         </li>
                     {% endif %}
@@ -47,14 +52,20 @@
                     </div>
                 {% endfor %}
             {% endfor %}
-            {% block body %}{% endblock %}
         </div>
+        {% block body %}{% endblock %}
+        
         
         {% block javascripts %}
             <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
             <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
             <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
-            <script src="/js/app.js"></script>
+            {{ encore_entry_script_tags('app') }}
         {% endblock %}
+        <footer>
+            <div class="d-flex justify-content-center">
+                <a href="https://github.com"><img src="https://img.icons8.com/nolan/48/github.png"/></a>
+            </div>
+        </footer>
     </body>
 </html>

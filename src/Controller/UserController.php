@@ -134,13 +134,40 @@ class UserController extends AbstractController
             }
 
             return $this->render('user/reset_password.html.twig', [
-                'form' => $form->createView()
+                'form' => $form->createView(),
+                'title' => 'Réinitialiser votre mot de passe.'
             ]);
         }
 
         $this->addFlash('danger', 'Le lien est invalide ou à expiré!');
 
         return $this->redirectToRoute('trick_index');
+    }
+
+    /**
+     * @Route("/admin/changer-mot-de-passe", name="user_change_password", methods={"GET","POST"})
+     */
+    public function changePassword(Request $request, Security $security, EntityManagerInterface $manager, UserPasswordEncoderInterface $encoder)
+    {
+        $user = $manager->getRepository(User::class)->findOneBy(['userName' => $security->getUser()->getUsername()]);
+
+        $form = $this->createForm(ResetPasswordType::class, $user);
+
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $user->setPassword($encoder->encodePassword($user, $user->getPassword()));
+
+            $manager->persist($user);
+            $manager->flush();
+
+            $this->addFlash('success', 'Votre mot de passe à bien été modifié!');
+        }
+
+        return $this->render('user/reset_password.html.twig', [
+            'form' => $form->createView(),
+            'title' => 'Changer votre mot de passe.'
+        ]);
     }
 
     /**
@@ -157,16 +184,15 @@ class UserController extends AbstractController
 
             $pictureFile = $form->get('URL')->getData();
 
-            $regx = '#^pictures\/#';
+            $fileUploader->setTargetDirectory($fileUploader->getTargetDirectory() . '/avatars');
 
-            if (preg_match($regx, $user->getAvatar())) {
-                $oldAvatar = preg_replace($regx, '', $user->getAvatar());
-                $fileUploader->remove($oldAvatar);
+            if (!preg_match('#default\/default#', $user->getAvatar())) {
+                $fileUploader->remove($user->getAvatar());
             }
 
             if ($pictureFile) {
                 $pictureFileName = $fileUploader->upload($pictureFile);
-                $user->setAvatar('pictures/' . $pictureFileName);
+                $user->setAvatar($pictureFileName);
             }
 
             $manager->persist($user);
@@ -179,6 +205,29 @@ class UserController extends AbstractController
             'currentAvatar' => $user->getAvatar(),
             'form' => $form->createView(),
         ]);
+    }
+
+    /**
+     * @Route("/admin/supprimer-avatar", name="user_delete_avatar", methods={"DELETE"})
+     */
+    public function deleteAvatar(Request $request, Security $security, EntityManagerInterface $manager, FileUploader $fileUploader): Response
+    {
+        $user = $manager->getRepository(User::class)->findOneBy(['userName' => $security->getUser()->getUsername()]);
+
+
+        if ($this->isCsrfTokenValid('delete' . $user->getId(), $request->request->get('_token'))) {
+            $fileUploader->setTargetDirectory($fileUploader->getTargetDirectory() . '/avatars');
+
+            if (!preg_match('#default\/default#', $user->getAvatar())) {
+                $fileUploader->remove($user->getAvatar());
+                $user->setAvatar('default/default-avatar.jpg');
+
+                $manager->persist($user);
+                $manager->flush();
+            }
+        }
+
+        return $this->redirectToRoute('user_edit_avatar');
     }
 
     /**

@@ -3,35 +3,40 @@
 {% block title %}Trick index{% endblock %}
 
 {% block body %}
-    <h1>Accueil</h1>
-
-    <table class="table">
-        <thead>
-            <tr>
-                <th>Titre</th>
-                <th>Description</th>
-                <th>Groupe</th>
-                <th>actions</th>
-            </tr>
-        </thead>
-        <tbody>
-        {% for trick in tricks %}
-            <tr>
-                <td>{{ trick.title }}</td>
-                <td>{{ trick.description }}</td>
-                <td>{{ trick.groupe.name }}</td>
-                <td>
-                    <a class="btn btn-success" href="{{ path('trick_show', {'id': trick.id}) }}">Afficher</a>
-                    {% if app.user %}
-                        <a class="btn btn-primary" href="{{ path('trick_edit', {'id': trick.id}) }}">Modifier</a>
-                    {% endif %}
-                </td>
-            </tr>
-        {% else %}
-            <tr>
-                <td colspan="4">Aucun trick en base de donnée</td>
-            </tr>
-        {% endfor %}
-        </tbody>
-    </table>
+    <header class="jumbotron jumbotron-fluid jumbotron-home">
+        <div class="container-fluid text-center"> 
+            <h1 class="display-3">SnowTricks</h1>
+            <p class="lead pb-4">Le site des tricks en snowboard!</p>
+        </div>
+    </header>
+    <div class="container">
+        <h1>Accueil</h1>
+        <hr>
+        <div id="homeTricksContainer" class="d-flex flex-wrap justify-content-center mb-5">
+            {% for trick in tricks | slice(0, 8) %}
+                {% set pictureOne = trick.pictures.last() %}
+                <div class="card p-2 m-2 d-flex" style="width:250px">
+                    <a class="card-title card-header-link" href="{{ path('trick_show', {'id': trick.id}) }}">
+                        <img class="card-img-top card-img-index" src="{% if pictureOne %}{{ asset('uploads/pictures/' ~ pictureOne.URL) }}{% endif %}">
+                    </a>
+                    <div class="card-body card-body-index">
+                        <div class="d-flex felx-row">
+                            <div class="mr-auto p-2 align-self-center">
+                                <a class="card-title card-title-index" href="{{ path('trick_show', {'id': trick.id}) }}">{{ trick.title }}</a>
+                            </div>
+                            {% if app.user %}
+                                <div class="p2">
+                                    <a class="btn edit-link" href="{{ path('trick_edit', {'id': trick.id}) }}">{{ include('_utils/_pencil.html.twig') }}</a>
+                                </div>
+                                <div class="p2 card-util">{{ include('trick/_delete_form.html.twig') }}</div>                   
+                        {% endif %}
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+        <div class="d-flex flex-wrap justify-content-center mb-5">
+            <button id="homeTricksLoaderButton" value="8" class="btn btn-primary">Voir plus</button>
+        </div>  
+    </div>
 {% endblock %}

@@ -11,10 +11,11 @@ Then run
 composer install
 ```
 
-Then (if needed) modify the **.env** file to connect to your mysql installation
+Then create or modify the **.env** file to connect to your mysql installation and setup the mail server
 
 ```shell
 DATABASE_URL=mysql://username:password@127.0.0.1:3306/db_name
+MAILER_DSN=smtp://user:password@server:port
 ```
 
 Then run the following command to create database
@@ -34,7 +35,7 @@ And finally run the dev server to test app
 - if you have installed the symfony cli tool :
 
 ```shell
-symfony server:start
+symfony serve
 ```
 
 - if you don't have installed the symfony cli tool :
@@ -42,3 +43,11 @@ symfony server:start
 ```shell
 php -S localhost:8000 -t public
 ```
+
+If you need to modify the **js** or **css** files then you need to install dependencies
+
+```shell
+yarn install
+```
+
+Then take a look to [symfony encore bundle](https://symfony.com/doc/current/frontend/encore/simple-example.html) on official doc.

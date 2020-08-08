@@ -3,12 +3,16 @@
 {% block title %}Modifier votre avatar{% endblock %}
 
 {% block body %}
-    <h1>Modifier votre avatar</h1>
+    <div class="container">
+        <h1>Modifier votre avatar</h1>
 
-    <img src="{{ asset('uploads/' ~ currentAvatar) }}" width="300" height="200">
+        <img class="rounded-circle" src="{{ asset('uploads/avatars/' ~ currentAvatar) }}" width="200" height="200">
 
-    {{ form_start(form) }}
-    {{ form_widget(form) }}
-    <button class="btn btn-success">{{ button_label|default('Enregistrer') }}</button>
-{{ form_end(form) }}
+        {{ form_start(form) }}
+            {{ form_widget(form) }}
+            <button class="btn btn-success">{{ button_label|default('Enregistrer') }}</button>
+        {{ form_end(form) }}
+        {{ include('user/_delete_avatar_form.html.twig') }}
+    </div>
+    
 {% endblock %}

@@ -1,0 +1,120 @@
+svg {
+  font-size: 1rem;
+}
+
+html,
+body {
+  height: 100vh;
+}
+
+.jumbotron-home {
+  background: url("../medias/hero_background.jpg") no-repeat center;
+  border: none;
+  padding: 15rem 2rem;
+}
+
+.jumbotron-show {
+  border: none;
+  padding: 10rem 2rem;
+}
+
+.jumbotron-show h1 {
+  color: white;
+  font-weight: 500;
+  text-shadow: 0px 0px 6px black;
+}
+
+.card-body-index {
+  padding: inherit;
+}
+
+.card-title-index {
+  font-size: 1rem;
+}
+
+.card-img-index,
+.card-img-edit {
+  max-height: 120px;
+}
+
+.card-img-index:hover,
+.img-show-trick:hover {
+  filter: brightness(75%);
+  cursor: pointer;
+}
+
+.img-show-trick {
+  height: 200px;
+  width: 300px;
+  border-radius: 5px;
+}
+
+.trick-description {
+  font-size: 1.2rem;
+}
+
+.comment-card {
+  margin-bottom: 2rem;
+}
+
+.comment-container {
+  border: solid lightgrey 1px;
+  border-radius: 5px;
+}
+
+.container-control-trick {
+  position: absolute;
+  top: 5em;
+  right: 1em;
+  z-index: 1;
+  background-color: rgb(230, 230, 230, 0.6);
+  border-radius: 7px;
+  border: solid grey 1px;
+}
+
+.container-control-trick > a.btn {
+  border-radius: 7px 7px 0px 0px;
+  border-bottom: solid grey 1px;
+}
+
+.container-control-trick > a.btn:hover {
+  box-shadow: none;
+}
+
+nav.navbar {
+  z-index: 5;
+}
+
+.container-control-trick div.btn {
+  padding: 0;
+}
+
+.login-container {
+  border: solid lightgrey 1px;
+  border-radius: 7px;
+}
+
+fieldset.form-group {
+  display: none;
+}
+
+.full-height-container {
+  height: 87.2%;
+}
+
+.dropdown-menu {
+  left: -60px;
+}
+
+.custom-file-label::after {
+  content: "Sélectionner";
+}
+
+.dropdown-toggle::after {
+  vertical-align: 0em;
+}
+
+footer {
+  padding: 0.5rem;
+  background-color: #009ac2;
+}
