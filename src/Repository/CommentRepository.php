@@ -47,16 +47,4 @@ class CommentRepository extends ServiceEntityRepository
         ;
     }
     */
-
-    public function getSome($trickId, $max = 0, $offset = 0)
-    {
-        return $this->createQueryBuilder('c')
-            ->andWhere('c.trick_id = :id')
-            ->setParameter('id', $trickId)
-            ->orderBy('c.id', 'ASC')
-            ->setMaxResults($max)
-            ->setFirstResult($offset)
-            ->getQuery()
-            ->getResult();
-    }
 }

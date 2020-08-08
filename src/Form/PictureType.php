@@ -28,7 +28,6 @@ class PictureType extends AbstractType
                     ])
                 ],
             ]);
-        //->add('trick');
     }
 
     public function configureOptions(OptionsResolver $resolver)

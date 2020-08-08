@@ -28,7 +28,6 @@ export function commentsLoader(axios) {
     $userName.text(comment.userName);
     $content.text(comment.content);
 
-    console.log($template);
     $("#comment-form-container").append($template);
   }
 }
