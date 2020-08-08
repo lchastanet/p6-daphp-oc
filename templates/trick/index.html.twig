@@ -13,7 +13,7 @@
         <h1>Accueil</h1>
         <hr>
         <div id="homeTricksContainer" class="d-flex flex-wrap justify-content-center mb-5">
-            {% for trick in tricks %}
+            {% for trick in tricks | slice(0, 8) %}
                 {% set pictureOne = trick.pictures.last() %}
                 <div class="card p-2 m-2 d-flex" style="width:250px">
                     <a class="card-title card-header-link" href="{{ path('trick_show', {'id': trick.id}) }}">

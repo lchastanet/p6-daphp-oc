@@ -27,7 +27,7 @@ class TrickController extends AbstractController
     public function index(TrickRepository $trickRepository): Response
     {
         return $this->render('trick/index.html.twig', [
-            'tricks' => $trickRepository->getSome(8, 0),
+            'tricks' => $trickRepository->findAll(),
         ]);
     }
 
@@ -104,6 +104,27 @@ class TrickController extends AbstractController
             'trick' => $trick,
             'form' => $form->createView()
         ]);
+    }
+
+    /**
+     * @Route("/trick/{id}/comments/{index}", name="trick_load_comments", methods={"GET"})
+     */
+    public function loadComments(Trick $trick, $index, Request $request)
+    {
+        $comments =  $trick->getComments();
+        $datas = [];
+
+        for ($i = $index; $i <= 5; $i++) {
+            $comment = $comments[$i];
+
+            $data["userAvatar"] = $comment->getUser()->getAvatar();
+            $data["userName"] = $comment->getUser()->getUserName();
+            $data["content"] = $comment->getContent();
+
+            array_push($datas, $data);
+        }
+
+        return $this->json($datas, 200);
     }
 
     /**

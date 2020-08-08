@@ -98,12 +98,20 @@ fieldset.form-group {
   display: none;
 }
 
+.full-height-container {
+  height: 87.2%;
+}
+
 .dropdown-menu {
   left: -60px;
 }
 
 .custom-file-label::after {
   content: "Sélectionner";
+}
+
+.dropdown-toggle::after {
+  vertical-align: 0em;
 }
 
 footer {
