@@ -1,7 +1,6 @@
-const axios = require("axios").default;
 import { cardTitleSpliter } from "./_utils.js";
 
-export function homeTricksLoader() {
+export function homeTricksLoader(axios) {
   $("#homeTricksLoaderButton").click(function () {
     const $this = $(this);
     const index = parseInt($this.val());
@@ -20,9 +19,7 @@ export function homeTricksLoader() {
 }
 
 function layoutCard(trick) {
-  const $template = $(document.getElementsByClassName("comment-card")[0]).clone(
-    true
-  );
+  const $template = $(document.getElementsByClassName("card")[0]).clone(true);
   const $headerLink = $($template.find(".card-header-link"));
   const $img = $($template.find(".card-img-index"));
   const $cardTitle = $($template.find(".card-title-index"));

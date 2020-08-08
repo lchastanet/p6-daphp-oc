@@ -14,6 +14,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Security\Core\Security;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 /**
@@ -111,17 +112,26 @@ class TrickController extends AbstractController
      */
     public function loadComments(Trick $trick, $index, Request $request)
     {
-        $comments =  $trick->getComments();
+        $comments = $trick->getComments();
+        $orderedComments = new ArrayCollection();
         $datas = [];
 
-        for ($i = $index; $i <= 5; $i++) {
-            $comment = $comments[$i];
+        for ($i = $comments->count(); $i > 0; $i--) {
+            $orderedComments->add($comments->get($i));
+        }
 
-            $data["userAvatar"] = $comment->getUser()->getAvatar();
-            $data["userName"] = $comment->getUser()->getUserName();
-            $data["content"] = $comment->getContent();
+        $limit = $index + 5;
 
-            array_push($datas, $data);
+        for ($i = $index; $i <= $limit; $i++) {
+            $comment = $orderedComments[$i];
+
+            if ($comment) {
+                $data["userAvatar"] = $comment->getUser()->getAvatar();
+                $data["userName"] = $comment->getUser()->getUserName();
+                $data["content"] = $comment->getContent();
+
+                array_push($datas, $data);
+            }
         }
 
         return $this->json($datas, 200);
