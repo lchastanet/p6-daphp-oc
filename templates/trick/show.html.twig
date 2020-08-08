@@ -56,7 +56,7 @@
                 <p>Aucun commentaire pour ce trick pour le moment!</p>    
             {% else %}
                 <h5>Commentaires</h5>
-                {% for comment in trick.comments | slice(0, 5) | reverse %}
+                {% for comment in trick.comments | reverse | slice(0, 5) %}
                     <div class="row comment-card mt-4">
                         <div class="col-sm-2 text-center my-auto">
                             <img src="{{ asset('uploads/avatars/' ~ comment.user.avatar) }}" class="rounded-circle comment-user-avatar" width="75" height="75">

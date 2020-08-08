@@ -48,7 +48,7 @@ class AppFixtures extends Fixture
 
         $manager->persist($trick);
 
-        for ($i = 0; $i < 7; $i++) {
+        for ($i = 0; $i <= 7; $i++) {
             $comment = new Comment();
             $comment->setUser($user)
                 ->setCreatedAt(new \DateTime())
@@ -97,7 +97,7 @@ class AppFixtures extends Fixture
 
         $manager->persist($trick);
 
-        for ($i = 0; $i < 7; $i++) {
+        for ($i = 0; $i <= 7; $i++) {
             $comment = new Comment();
             $comment->setUser($user)
                 ->setCreatedAt(new \DateTime())
@@ -134,7 +134,7 @@ class AppFixtures extends Fixture
 
         $manager->persist($trick);
 
-        for ($i = 0; $i < 7; $i++) {
+        for ($i = 0; $i <= 7; $i++) {
             $comment = new Comment();
             $comment->setUser($user)
                 ->setCreatedAt(new \DateTime())
@@ -189,7 +189,7 @@ class AppFixtures extends Fixture
 
         $manager->persist($trick);
 
-        for ($i = 0; $i < 7; $i++) {
+        for ($i = 0; $i <= 7; $i++) {
             $comment = new Comment();
             $comment->setUser($user)
                 ->setCreatedAt(new \DateTime())
@@ -232,7 +232,7 @@ class AppFixtures extends Fixture
 
         $manager->persist($trick);
 
-        for ($i = 0; $i < 7; $i++) {
+        for ($i = 0; $i <= 7; $i++) {
             $comment = new Comment();
             $comment->setUser($user)
                 ->setCreatedAt(new \DateTime())
@@ -268,7 +268,7 @@ class AppFixtures extends Fixture
 
         $manager->persist($trick);
 
-        for ($i = 0; $i < 7; $i++) {
+        for ($i = 0; $i <= 7; $i++) {
             $comment = new Comment();
             $comment->setUser($user)
                 ->setCreatedAt(new \DateTime())
@@ -323,7 +323,7 @@ class AppFixtures extends Fixture
 
         $manager->persist($trick);
 
-        for ($i = 0; $i < 7; $i++) {
+        for ($i = 0; $i <= 7; $i++) {
             $comment = new Comment();
             $comment->setUser($user)
                 ->setCreatedAt(new \DateTime())
@@ -366,7 +366,7 @@ class AppFixtures extends Fixture
 
         $manager->persist($trick);
 
-        for ($i = 0; $i < 7; $i++) {
+        for ($i = 0; $i <= 7; $i++) {
             $comment = new Comment();
             $comment->setUser($user)
                 ->setCreatedAt(new \DateTime())
@@ -414,7 +414,7 @@ class AppFixtures extends Fixture
 
         $manager->persist($trick);
 
-        for ($i = 0; $i < 7; $i++) {
+        for ($i = 0; $i <= 7; $i++) {
             $comment = new Comment();
             $comment->setUser($user)
                 ->setCreatedAt(new \DateTime())
@@ -463,7 +463,7 @@ class AppFixtures extends Fixture
 
         $manager->persist($trick);
 
-        for ($i = 0; $i < 7; $i++) {
+        for ($i = 0; $i <= 7; $i++) {
             $comment = new Comment();
             $comment->setUser($user)
                 ->setCreatedAt(new \DateTime())

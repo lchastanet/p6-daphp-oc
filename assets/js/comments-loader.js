@@ -1,6 +1,4 @@
-const axios = require("axios").default;
-
-export function commentsLoader() {
+export function commentsLoader(axios) {
   $("#commentsLoaderButton").click(function () {
     const $this = $(this);
     const index = parseInt($this.val());
