@@ -5,5 +5,8 @@
 {% block body %}
     <h1>Modifier la Video</h1>
 
-    {{ include('video/_form.html.twig', {'button_label': 'Modifier'}) }}
+    {{ form_start(form) }}
+        {{ form_widget(form) }}
+        <button class="btn btn-success">Modifier</button>
+    {{ form_end(form) }}
 {% endblock %}

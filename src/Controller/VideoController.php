@@ -16,17 +16,7 @@ use Symfony\Component\Routing\Annotation\Route;
 class VideoController extends AbstractController
 {
     /**
-     * @Route("/", name="video_index", methods={"GET"})
-     */
-    public function index(VideoRepository $videoRepository): Response
-    {
-        return $this->render('video/index.html.twig', [
-            'videos' => $videoRepository->findAll(),
-        ]);
-    }
-
-    /**
-     * @Route("/new", name="video_new", methods={"GET","POST"})
+     * @Route("/admin/ajouter", name="video_new", methods={"GET","POST"})
      */
     public function new(Request $request): Response
     {
@@ -49,17 +39,7 @@ class VideoController extends AbstractController
     }
 
     /**
-     * @Route("/{id}", name="video_show", methods={"GET"})
-     */
-    public function show(Video $video): Response
-    {
-        return $this->render('video/show.html.twig', [
-            'video' => $video,
-        ]);
-    }
-
-    /**
-     * @Route("/{id}/edit", name="video_edit", methods={"GET","POST"})
+     * @Route("/{id}/admin/modifier", name="video_edit", methods={"GET","POST"})
      */
     public function edit(Request $request, Video $video): Response
     {
@@ -81,18 +61,18 @@ class VideoController extends AbstractController
     }
 
     /**
-     * @Route("/{id}", name="video_delete", methods={"DELETE"})
+     * @Route("/{id}/admin", name="video_delete", methods={"DELETE"})
      */
     public function delete(Request $request, Video $video): Response
     {
         if ($this->isCsrfTokenValid('delete' . $video->getId(), $request->request->get('_token'))) {
-            $trickId = $video->getTrick()->getId();
-
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->remove($video);
             $entityManager->flush();
+
+            return $this->json("Item deleted", 200);
         }
 
-        return $this->redirectToRoute('trick_edit', ['id' => $trickId]);
+        return $this->json("Something, somewhere, went terribly wrong", 500);
     }
 }

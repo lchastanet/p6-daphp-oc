@@ -1,4 +1,4 @@
-<form method="post" action="{{ path('trick_delete', {'id': trick.id}) }}" onsubmit="return confirm('Are you sure you want to delete this item?');">
+<form method="post" action="{{ path('trick_delete', {'id': trick.id}) }}" onsubmit="return confirm('Êtes vous sur de vouloir supprimer ce trick?');">
     <input type="hidden" name="_method" value="DELETE">
     <input type="hidden" name="_token" value="{{ csrf_token('deleteTrick') }}">
     <button class="btn">{{ include('_utils/_trashbox.html.twig') }}</button>

@@ -3,7 +3,16 @@
 {% block title %}Modifier l'image{% endblock %}
 
 {% block body %}
-    <h1>Modifier l'image</h1>
+    <div class="container full-height-container">
+        <div class="row">
+            <div class="col-8 mx-auto mt-5">
+                <h1>Modifier l'image</h1>
 
-    {{ include('picture/_form.html.twig', {'button_label': 'Modifier'}) }}
+                {{ form_start(form) }}
+                    {{ form_widget(form) }}
+                    <button class="btn btn-success">Modifier</button>
+                {{ form_end(form) }}
+            </div>
+        </div>
+    </div>
 {% endblock %}

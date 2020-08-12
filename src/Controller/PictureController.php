@@ -17,17 +17,7 @@ use App\Service\FileUploader;
 class PictureController extends AbstractController
 {
     /**
-     * @Route("/{id}", name="picture_show", methods={"GET"})
-     */
-    public function show(Picture $picture): Response
-    {
-        return $this->render('picture/show.html.twig', [
-            'picture' => $picture,
-        ]);
-    }
-
-    /**
-     * @Route("/admin/{id}/edit", name="picture_edit", methods={"GET","POST"})
+     * @Route("/{id}/admin/modifier", name="picture_edit", methods={"GET","POST"})
      */
     public function edit(Request $request, Picture $picture, FileUploader $fileUploader): Response
     {
@@ -58,7 +48,7 @@ class PictureController extends AbstractController
     }
 
     /**
-     * @Route("/admin/{id}", name="picture_delete", methods={"DELETE"})
+     * @Route("/{id}/admin", name="picture_delete", methods={"DELETE"})
      */
     public function delete(Request $request, Picture $picture, FileUploader $fileUploader): Response
     {
@@ -74,8 +64,10 @@ class PictureController extends AbstractController
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->remove($picture);
             $entityManager->flush();
+
+            return $this->json("Item deleted", 200);
         }
 
-        return $this->redirectToRoute('trick_edit', ['id' => $trickId]);
+        return $this->json("Something, somewhere, went terribly wrong", 500);
     }
 }
