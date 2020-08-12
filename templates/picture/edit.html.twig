@@ -8,6 +8,7 @@
             <div class="col-8 mx-auto mt-5">
                 <h1>Modifier l'image</h1>
 
+                <img style="height: 400px; width: 600px;" src="{{ asset('uploads/pictures/' ~ picture.URL) }}">
                 {{ form_start(form) }}
                     {{ form_widget(form) }}
                     <button class="btn btn-success">Modifier</button>

@@ -3,10 +3,17 @@
 {% block title %}Modifier la Video{% endblock %}
 
 {% block body %}
-    <h1>Modifier la Video</h1>
+    <div class="container full-height-container">
+        <div class="row">
+            <div class="col-8 mx-auto mt-5">
+                <h1>Modifier la Video</h1>
 
-    {{ form_start(form) }}
-        {{ form_widget(form) }}
-        <button class="btn btn-success">Modifier</button>
-    {{ form_end(form) }}
+                <iframe class="video-show-trick m-2" width="600" height="400" src="{{ video.URL }}" frameborder="0"></iframe>
+                {{ form_start(form) }}
+                    {{ form_widget(form) }}
+                    <button class="btn btn-success">Modifier</button>
+                {{ form_end(form) }}
+            </div>
+        </div>
+    </div>
 {% endblock %}
