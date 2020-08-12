@@ -19,6 +19,14 @@ export function deleteMedia(axios) {
         .post($form.attr("action"), params)
         .then(function (res) {
           $($form.parents()[2]).remove();
+          const videoUrl = $($($form.parents()[2]).children()[0]).attr("src");
+
+          $("input")
+            .filter(function () {
+              return this.value == videoUrl;
+            })
+            .remove();
+
           console.log(res);
         })
         .catch(function (err) {

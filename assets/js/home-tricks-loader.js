@@ -11,6 +11,15 @@ export function homeTricksLoader(axios) {
         const tricks = res.data;
         tricks.forEach(layoutCard);
         $this.val(index + 8);
+
+        if (tricks.length < 8) {
+          $this
+            .off("click")
+            .removeClass("btn-primary")
+            .addClass("btn-secondary")
+            .addClass("disabled")
+            .text("Tout est là...");
+        }
       })
       .catch(function (err) {
         console.log(err);

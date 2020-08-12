@@ -10,6 +10,15 @@ export function commentsLoader(axios) {
         const comments = res.data;
         comments.forEach(layoutCard);
         $this.val(index + 5);
+
+        if (comments.length < 5) {
+          $this
+            .off("click")
+            .removeClass("btn-primary")
+            .addClass("btn-secondary")
+            .addClass("disabled")
+            .text("Tout est là...");
+        }
       })
       .catch(function (err) {
         console.log(err);

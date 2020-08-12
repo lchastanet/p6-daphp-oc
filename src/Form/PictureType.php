@@ -16,7 +16,7 @@ class PictureType extends AbstractType
         $builder
             ->add('URL', FileType::class, [
                 'label' => 'Image à ajouter',
-                'required' => false,
+                'required' => true,
                 'constraints' => [
                     new File([
                         'maxSize' => '2024k',
@@ -25,6 +25,7 @@ class PictureType extends AbstractType
                             'image/png',
                         ],
                         'mimeTypesMessage' => 'Ajouter une image png ou jpeg',
+                        'maxSizeMessage' => 'Le fichier est trop gros 2MB maximum'
                     ])
                 ],
             ]);

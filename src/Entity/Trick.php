@@ -27,6 +27,7 @@ class Trick
 
     /**
      * @ORM\Column(type="text")
+     * @Assert\Length(min="20", minMessage="Votre description doit faire minimum 20 caractères.")
      */
     private $description;
 

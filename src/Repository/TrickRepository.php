@@ -52,7 +52,7 @@ class TrickRepository extends ServiceEntityRepository
     public function getSome($max = 0, $offset = 0)
     {
         return $this->createQueryBuilder('t')
-            ->orderBy('t.id', 'ASC')
+            ->orderBy('t.id', 'DESC')
             ->setMaxResults($max)
             ->setFirstResult($offset)
             ->getQuery()

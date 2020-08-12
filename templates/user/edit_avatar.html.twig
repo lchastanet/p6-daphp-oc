@@ -10,10 +10,10 @@
 
                 <img class="rounded-circle" src="{{ asset('uploads/avatars/' ~ currentAvatar) }}" width="200" height="200">
 
-                <form method="post" action="{{ path('user_delete_avatar', {'id': app.user.id}) }}" onsubmit="return confirm('Are you sure you want to delete this item?');">
+                <form method="post" action="{{ path('user_delete_avatar', {'id': app.user.id}) }}" onsubmit="return confirm('Vous êtes sûr de vouloir supprimer votre avatar?');">
                     <input type="hidden" name="_method" value="DELETE">
                     <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ app.user.id) }}">
-                    <button class="btn btn-danger ml-2 mb-5">Supprimer votre avatar</button>
+                    <button class="btn btn-danger ml-2 mb-5 mt-2">Supprimer votre avatar</button>
                 </form>
 
                 {{ form_start(form) }}
