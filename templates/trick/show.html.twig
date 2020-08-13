@@ -32,9 +32,9 @@
             <p class="trick-description">{{ trick.description }}</p>
             <p>
                 <span class="badge badge-pill badge-primary">{{ trick.groupe.name }}</span>
-                <span class="badge badge-light">Créé le <em>{{ trick.createdAt|date("d/m/Y à h:i", "Europe/Paris") }}</em></span>
+                <span class="badge badge-light">Créé le <em>{{ trick.createdAt|date("d/m/Y à H\\hi", "Europe/Paris") }}</em></span>
                 {% if trick.updatedAt %}
-                    <span class="badge badge-light">Modifié le <em>{{ trick.updatedAt|date("d/m/Y à h:i", "Europe/Paris") }}</em></span>
+                    <span class="badge badge-light">Modifié le <em>{{ trick.updatedAt|date("d/m/Y à H\\hi", "Europe/Paris") }}</em></span>
                 {% endif %}
             </p>
         </div>  
