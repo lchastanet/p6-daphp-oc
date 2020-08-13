@@ -39,7 +39,7 @@ class CommentController extends AbstractController
             return $this->redirectToRoute('trick_show', ['id' => $idTrick]);
         }
 
-        $this->addFlash('danger', 'Une erreur est survenue');
+        $this->addFlash('danger', 'Votre commentaire doit faire 20 caractères minimum.');
 
         return $this->redirectToRoute('trick_show', ['id' => $idTrick]);
     }
