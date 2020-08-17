@@ -5,10 +5,11 @@ namespace App\Controller;
 use App\Entity\Video;
 use App\Form\VideoType;
 use App\Repository\VideoRepository;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 /**
  * @Route("/video")
@@ -39,25 +40,26 @@ class VideoController extends AbstractController
     }
 
     /**
-     * @Route("/{id}/admin/modifier", name="video_edit", methods={"GET","POST"})
+     * @Route("/{id}/admin/modifier", name="video_edit", methods={"POST"})
      */
-    public function edit(Request $request, Video $video): Response
+    public function edit(Request $request, Video $video, EntityManagerInterface $entityManager): Response
     {
-        $form = $this->createForm(VideoType::class, $video);
-        $form->handleRequest($request);
+        $videoURL = $request->request->get('videoURL');
 
-        if ($form->isSubmitted() && $form->isValid()) {
-            $trickId = $video->getTrick()->getId();
+        if (filter_var($videoURL, FILTER_VALIDATE_URL)) {
+            $video->setURL($videoURL);
 
-            $this->getDoctrine()->getManager()->flush();
+            if ($this->isCsrfTokenValid('editVideo', $request->request->get('_token'))) {
+                $entityManager = $this->getDoctrine()->getManager();
+                $entityManager->flush();
 
-            return $this->redirectToRoute('trick_edit', ['id' => $trickId]);
+                return $this->json("Item updated", 200);
+            }
+
+            return $this->json("Token incorrecte", 403);
         }
 
-        return $this->render('video/edit.html.twig', [
-            'video' => $video,
-            'form' => $form->createView(),
-        ]);
+        return $this->json("URL de la video incorrecte", 403);
     }
 
     /**

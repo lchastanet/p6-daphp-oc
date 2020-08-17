@@ -138,6 +138,10 @@ fieldset.form-group {
   vertical-align: 0em;
 }
 
+#videoErrorFlash {
+  display: none;
+}
+
 footer {
   padding: 0.5rem;
   background-color: #009ac2;

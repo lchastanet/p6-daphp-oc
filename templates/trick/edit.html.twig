@@ -61,5 +61,40 @@
                 </div>
             </div>
         </div>
-    </div>
+        <div class="modal" id="editVideoModal">
+            <div class="modal-dialog modal-dialog-centered" role="document">
+                <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Modifier la video</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="container">
+                        <div class="row">
+                            <div id="videoErrorFlash" class="alert alert-dismissible alert-danger">
+                                <button type="button" class="close" data-dismiss="alert">&times;</button>
+                                <p class="mb-0">dezdez</p>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <form action="">
+                                <div class="form-group">
+                                    <label for="videoURL" class="required">Lien "embed" de la video</label>
+                                    <input type="text" name="videoURL" id="videoURL" class="form-control" required="required">
+                                    <input type="hidden" name="_token" id="videoToken" value="{{ csrf_token('editVideo') }}">
+                                </div>                  
+                            </form>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-danger" data-dismiss="modal">Annuler</button>
+                    <button type="button" class="btn btn-success" id="submitVideoURL">Modifier</button>
+                </div>
+                </div>
+            </div>
+        </div>
+    </div>   
 {% endblock %}
