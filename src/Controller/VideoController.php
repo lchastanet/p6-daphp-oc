@@ -17,29 +17,6 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 class VideoController extends AbstractController
 {
     /**
-     * @Route("/admin/ajouter", name="video_new", methods={"GET","POST"})
-     */
-    public function new(Request $request): Response
-    {
-        $video = new Video();
-        $form = $this->createForm(VideoType::class, $video);
-        $form->handleRequest($request);
-
-        if ($form->isSubmitted() && $form->isValid()) {
-            $entityManager = $this->getDoctrine()->getManager();
-            $entityManager->persist($video);
-            $entityManager->flush();
-
-            return $this->redirectToRoute('video_index');
-        }
-
-        return $this->render('video/new.html.twig', [
-            'video' => $video,
-            'form' => $form->createView(),
-        ]);
-    }
-
-    /**
      * @Route("/{id}/admin/modifier", name="video_edit", methods={"POST"})
      */
     public function edit(Request $request, Video $video, EntityManagerInterface $entityManager): Response
