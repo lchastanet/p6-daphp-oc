@@ -59,6 +59,8 @@ class UserController extends AbstractController
             $manager->persist($user);
             $manager->flush();
 
+            $this->addFlash('success', 'Votre compte à bien été créé, connectez-vous!');
+
             return $this->redirectToRoute('user_login');
         }
 
@@ -95,8 +97,12 @@ class UserController extends AbstractController
 
                 $mailer->send($email);
 
+                $this->addFlash('success', 'Un email vous à été envoyer, cliquez sur le lien pour réinitialiser votre mot de passe!');
+
                 return $this->redirectToRoute('user_login');
             }
+
+            $this->addFlash('danger', 'Votre mail ne correspont à aucun compte, essayez d\'en créer un!');
 
             return $this->redirectToRoute('user_registration');
         }
@@ -128,7 +134,7 @@ class UserController extends AbstractController
                 $manager->persist($user);
                 $manager->flush();
 
-                $this->addFlash('success', 'Un email vous à été envoyer, cliquez sur le lien pour réinitialiser votre mot de passe!');
+                $this->addFlash('success', 'Votre mot de passe à bien été réinitialisé!');
 
                 return $this->redirectToRoute('user_login');
             }

@@ -28,6 +28,7 @@ class User implements UserInterface, \Serializable
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Assert\Length(min="5", minMessage="Votre pseudo doit faire minimum 5 caractères.")
      */
     private $userName;
 

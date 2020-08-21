@@ -4,8 +4,10 @@
 
 {% block body %}
     {% set pictureOne = trick.pictures.last() %}
-    {% set pictureOneURL = asset('uploads/pictures/' ~ pictureOne.URL) %}
-    <header class="jumbotron jumbotron-fluid jumbotron-show" style="background: url('{{ pictureOneURL }}'); background-repeat: no-repeat; background-position: center; background-size: cover;">
+    {% if pictureOne %}
+        {% set pictureOneURL = asset('uploads/pictures/' ~ pictureOne.URL) %}
+    {% endif %}
+    <header class="jumbotron jumbotron-fluid jumbotron-show" style="background: url('{% if pictureOneURL is defined %}{{ pictureOneURL }}{% endif %}'); background-repeat: no-repeat; background-position: center; background-size: cover;">
         <div class="container-fluid text-center"> 
             <h1 class="display-3">{{ trick.title | capitalize }}</h1> 
         </div>
@@ -18,7 +20,7 @@
                     <div class="card-body card-body-index">
                         <div class="d-flex flex-row-reverse">
                             {{ include('picture/_delete_form.html.twig') }}
-                            <a class="btn" href="{{ path('picture_edit', {'id': picture.id}) }}">{{ include('_utils/_pencil.html.twig') }}</a>
+                            <a class="btn edit-picture-btn" href="{{ path('picture_edit', {'id': picture.id}) }}">{{ include('_utils/_pencil.html.twig') }}</a>
                         </div>
                     </div>
                 </div>
@@ -30,7 +32,7 @@
                     <div class="card-body card-body-index">
                         <div class="d-flex flex-row-reverse">
                             {{ include('video/_delete_form.html.twig') }}
-                            <a class="btn" href="{{ path('video_edit', {'id': video.id}) }}">{{ include('_utils/_pencil.html.twig') }}</a>
+                            <a class="btn edit-video-btn" href="{{ path('video_edit', {'id': video.id}) }}">{{ include('_utils/_pencil.html.twig') }}</a>
                         </div>
                     </div>
                 </div>
@@ -59,5 +61,7 @@
                 </div>
             </div>
         </div>
-    </div>
+        {{ include('video/_edit_video_modal.html.twig') }}
+        {{ include('picture/_edit_picture_modal.html.twig') }}
+    </div>   
 {% endblock %}

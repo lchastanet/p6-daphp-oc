@@ -39,28 +39,8 @@ class CommentController extends AbstractController
             return $this->redirectToRoute('trick_show', ['id' => $idTrick]);
         }
 
-        $this->addFlash('danger', 'Une erreur est survenue');
+        $this->addFlash('danger', 'Votre commentaire doit faire 20 caractères minimum.');
 
         return $this->redirectToRoute('trick_show', ['id' => $idTrick]);
-    }
-
-    /**
-     * @Route("/charger-commentaires/{idTrick}/{index}", name="comments_load", methods={"GET"})
-     */
-    public function loadComments($idTrick, $index, CommentRepository $commentRepository): Response
-    {
-        $comments = $commentRepository->getSome($idTrick, 5, $index);
-
-        $datas = [];
-
-        foreach ($comments as $comment) {
-            $data["userAvatar"] = $comment->getUser()->getAvatar();
-            $data["userName"] = $comment->getUser()->getUserName();
-            $data["content"] = $comment->getContent();
-
-            array_push($datas, $data);
-        }
-
-        return $this->json($datas, 200);
     }
 }

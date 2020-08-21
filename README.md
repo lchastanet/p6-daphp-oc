@@ -14,6 +14,8 @@ composer install
 Then create or modify the **.env** file to connect to your mysql installation and setup the mail server
 
 ```shell
+APP_ENV=dev
+APP_SECRET=37475f44748fe184be7865821e6828d6
 DATABASE_URL=mysql://username:password@127.0.0.1:3306/db_name
 MAILER_DSN=smtp://user:password@server:port
 ```

@@ -11,6 +11,7 @@ use Doctrine\Persistence\ManagerRegistry;
  * @method Trick|null findOneBy(array $criteria, array $orderBy = null)
  * @method Trick[]    findAll()
  * @method Trick[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
+ * @method Trick[]    getSome(int $max = 0, int $offset = 0)
  */
 class TrickRepository extends ServiceEntityRepository
 {
@@ -51,7 +52,7 @@ class TrickRepository extends ServiceEntityRepository
     public function getSome($max = 0, $offset = 0)
     {
         return $this->createQueryBuilder('t')
-            ->orderBy('t.id', 'ASC')
+            ->orderBy('t.id', 'DESC')
             ->setMaxResults($max)
             ->setFirstResult($offset)
             ->getQuery()
