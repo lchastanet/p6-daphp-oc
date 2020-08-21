@@ -32,11 +32,13 @@ class PictureController extends AbstractController
             $pictureFileName = $fileUploader->upload($newPicture);
             $picture->setURL($pictureFileName);
             $fileUploader->remove($oldURL);
+
+            $this->getDoctrine()->getManager()->flush();
+
+            return $this->json($pictureFileName, 200);
         }
 
-        $this->getDoctrine()->getManager()->flush();
-
-        return $this->json($pictureFileName, 200);
+        return $this->json("Une erreur est survenue lors du chargement de l'image", 403);
     }
 
     /**
