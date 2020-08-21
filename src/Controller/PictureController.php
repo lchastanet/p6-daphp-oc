@@ -10,7 +10,9 @@ use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Validator\Constraints\File;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
+use Symfony\Component\Validator\Validator\ValidatorInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 /**
@@ -21,24 +23,36 @@ class PictureController extends AbstractController
     /**
      * @Route("/{id}/admin/modifier", name="picture_edit", methods={"POST"})
      */
-    public function edit(Request $request, Picture $picture, FileUploader $fileUploader): Response
+    public function edit(Request $request, Picture $picture, FileUploader $fileUploader, ValidatorInterface $validator): Response
     {
         $newPicture = $request->files->get('picture');
 
-        $fileUploader->setTargetDirectory($fileUploader->getTargetDirectory() . '/pictures');
+        $violations = $validator->validate(
+            $newPicture,
+            new File([
+                'maxSize' => '2M',
+                'mimeTypes' => [
+                    'image/*',
+                ]
+            ])
+        );
 
-        if ($newPicture) {
-            $oldURL = $picture->getURL();
-            $pictureFileName = $fileUploader->upload($newPicture);
-            $picture->setURL($pictureFileName);
-            $fileUploader->remove($oldURL);
+        if ($violations->count() > 0) {
+            $violation = $violations[0];
 
-            $this->getDoctrine()->getManager()->flush();
-
-            return $this->json($pictureFileName, 200);
+            return $this->json($violation->getMessage(), 403);
         }
 
-        return $this->json("Une erreur est survenue lors du chargement de l'image", 403);
+        $fileUploader->setTargetDirectory($fileUploader->getTargetDirectory() . '/pictures');
+
+        $oldURL = $picture->getURL();
+        $pictureFileName = $fileUploader->upload($newPicture);
+        $picture->setURL($pictureFileName);
+        $fileUploader->remove($oldURL);
+
+        $this->getDoctrine()->getManager()->flush();
+
+        return $this->json($pictureFileName, 200);
     }
 
     /**
