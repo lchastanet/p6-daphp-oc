@@ -1,3 +1,5 @@
+import { replaceHeaderImg } from "./_utils.js";
+
 export function deleteMedia(axios) {
   $(".delete-media-btn").click(function (e) {
     e.preventDefault();
@@ -19,11 +21,19 @@ export function deleteMedia(axios) {
         .post($form.attr("action"), params)
         .then(function (res) {
           $($form.parents()[2]).remove();
-          const videoUrl = $($($form.parents()[2]).children()[0]).attr("src");
+          const mediaUrl = $($($form.parents()[2]).children()[0]).attr("src");
+          const newImg = $(
+            $($("#edit-card-container").children()[0]).children()[0]
+          )
+            .attr("src")
+            .split("/")[3];
+          const currenImg = mediaUrl.split("/")[3];
+
+          replaceHeaderImg(currenImg, newImg);
 
           $("input")
             .filter(function () {
-              return this.value == videoUrl;
+              return this.value == mediaUrl;
             })
             .remove();
 

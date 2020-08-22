@@ -1,3 +1,5 @@
+import { replaceHeaderImg } from "./_utils.js";
+
 export function editPicture(axios) {
   $(".edit-picture-btn").click(function (e) {
     e.preventDefault();
@@ -47,18 +49,4 @@ export function editPicture(axios) {
       }
     });
   });
-}
-
-function replaceHeaderImg(originalImg, newImg) {
-  const currentHeaderImg = $($(".jumbotron")[0])
-    .css("background-image")
-    .split("/")[5]
-    .slice(0, -2);
-
-  if (originalImg === currentHeaderImg) {
-    $($(".jumbotron")[0]).css(
-      "background-image",
-      'url("http://localhost:8000/uploads/pictures/' + newImg + '")'
-    );
-  }
 }

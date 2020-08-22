@@ -13,3 +13,17 @@ export function cardTitleSpliter(text) {
   }
   return text;
 }
+
+export function replaceHeaderImg(originalImg, newImg) {
+  const currentHeaderImg = $($(".jumbotron")[0])
+    .css("background-image")
+    .split("/")[5]
+    .slice(0, -2);
+
+  if (originalImg === currentHeaderImg) {
+    $($(".jumbotron")[0]).css(
+      "background-image",
+      'url("http://localhost:8000/uploads/pictures/' + newImg + '")'
+    );
+  }
+}
