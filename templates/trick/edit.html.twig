@@ -13,7 +13,7 @@
         </div>
     </header>
     <div class="container">
-        <div class="d-flex flex-wrap justify-content-center">
+        <div class="d-flex flex-wrap justify-content-center" id="edit-card-container" >
             {% for picture in trick.pictures | reverse %}
                 <div class="card p-2 m-2 d-flex" style="width:250px">
                     <img class="card-img-top card-img-edit" src="{{ asset('uploads/pictures/' ~ picture.URL) }}" alt="Card image">

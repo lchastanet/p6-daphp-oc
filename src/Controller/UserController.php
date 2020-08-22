@@ -93,7 +93,7 @@ class UserController extends AbstractController
                     ->from('mailer@oc-projet5.loris.space')
                     ->to($user->getEmail())
                     ->subject('Réinitialisez votre mot de passe!')
-                    ->text('http://localhost:8000/reinitialiser-mot-de-passe?user=' . $user->getUserName() . '&token=' . $user->getReinitToken());
+                    ->text($request->getSchemeAndHttpHost() . '/reinitialiser-mot-de-passe?user=' . $user->getUserName() . '&token=' . $user->getReinitToken());
 
                 $mailer->send($email);
 
