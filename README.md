@@ -46,7 +46,7 @@ symfony serve
 php -S localhost:8000 -t public
 ```
 
-If you need to modify the **js** or **css** files then you need to install dependencies
+If you need to modify the **js** or **css** files then you need to install dependencies :
 
 ```shell
 yarn install
