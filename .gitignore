@@ -59,3 +59,7 @@ yarn-error.log
 ###< symfony/webpack-encore-bundle ###
 
 .DS_Store
+###> phpunit/phpunit ###
+/phpunit.xml
+.phpunit.result.cache
+###< phpunit/phpunit ###
